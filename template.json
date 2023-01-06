@@ -218,57 +218,27 @@
     },
     "npc": {
       "templates": [
-        "hasStatRow",
         "hasBasePools",
         "hasTraits"
       ],
-      "details": {
-        "cr": {
-          "level": 1,
-          "hd": "1d8"
-        },
-        "xp": {
-          "value": 0
-        },
-        "source": ""
+      "hd": {
+        "value": 1,
+        "die": "d8"
       },
       "primaryStats": {
-        "meleeAttack": {
-          "value": 0
+        "attack": {
+          "value": 11
         },
-        "rangeAttack": {
-          "value": 0
-        },
-        "def": {
-          "value": 0
+        "defence": {
+          "value": 10
         },
         "save": {
           "value": 0
         },
-        "sth": {
+        "stealth": {
           "value": 0
         },
-        "mv": {
-          "value": 0
-        }
-      },
-      "auxiliaryStats": {
-        "meleeCritRange": {
-          "value": 1
-        },
-        "rangeCritRange": {
-          "value": 1
-        },
-        "rangeDistanceMod": {
-          "value": 0
-        },
-        "rangeDecayMod": {
-          "value": 1
-        },
-        "meleeFumbleRange": {
-          "value": 0
-        },
-        "rangeFumbleRange": {
+        "move": {
           "value": 0
         }
       },

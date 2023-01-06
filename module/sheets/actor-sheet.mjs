@@ -48,6 +48,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Prepare NPC data and items.
     if (actorData.type == 'npc') {
       this._prepareItems(context);
+      this._prepareNpcData(context);
     }
 
     // Add roll data for TinyMCE editors.
@@ -71,6 +72,13 @@ export class BoilerplateActorSheet extends ActorSheet {
     for (let [k, v] of Object.entries(context.system.abilities)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilityAbbreviationsCaps[k]) ?? k;
     }
+    for (let [k, v] of Object.entries(context.system.primaryStats)) {
+      v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
+    }
+  }
+
+  _prepareNpcData(context) {
+    // Handle ability scores.
     for (let [k, v] of Object.entries(context.system.primaryStats)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
     }
