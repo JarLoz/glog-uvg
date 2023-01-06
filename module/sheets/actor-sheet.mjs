@@ -71,6 +71,9 @@ export class BoilerplateActorSheet extends ActorSheet {
     for (let [k, v] of Object.entries(context.system.abilities)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilities[k]) ?? k;
     }
+    for (let [k, v] of Object.entries(context.system.primaryStats)) {
+      v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
+    }
   }
 
   /**
@@ -210,12 +213,23 @@ export class BoilerplateActorSheet extends ActorSheet {
         const itemId = element.closest('.item').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
+      } else if (dataset.rollType == 'ability') {
+        let key = dataset.rollAbility;
+        let value = this.actor.system.abilities[key].value;
+        let label = dataset.label ? `[ability check] ${dataset.label}: ${value}` : '';
+        let roll = new Roll("d20", this.actor.getRollData());
+        roll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          flavor: label,
+          rollMode: game.settings.get('core', 'rollMode'),
+        });
+        return roll;
       }
     }
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[ability] ${dataset.label}` : '';
+      let label = dataset.label ? `${dataset.label}` : '';
       let roll = new Roll(dataset.roll, this.actor.getRollData());
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),

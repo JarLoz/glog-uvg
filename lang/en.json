@@ -13,6 +13,12 @@
   "BOILERPLATE.AbilityWisAbbr": "wis",
   "BOILERPLATE.AbilityChaAbbr": "cha",
 
+  "BOILERPLATE.PrimaryStatAttack": "Attack",
+  "BOILERPLATE.PrimaryStatDefence": "Defence",
+  "BOILERPLATE.PrimaryStatMove": "Move",
+  "BOILERPLATE.PrimaryStatSave": "Save",
+  "BOILERPLATE.PrimaryStatStealth": "Stealth",
+
   "BOILERPLATE.EffectCreate": "Create Effect",
   "BOILERPLATE.EffectToggle": "Toggle Effect",
   "BOILERPLATE.EffectEdit": "Edit Effect",

@@ -13,6 +13,14 @@ export const BOILERPLATE = {};
   "cha": "BOILERPLATE.AbilityCha"
 };
 
+BOILERPLATE.stats = {
+    "attack": "BOILERPLATE.PrimaryStatAttack",
+    "defence": "BOILERPLATE.PrimaryStatDefence",
+    "move": "BOILERPLATE.PrimaryStatMove",
+    "save": "BOILERPLATE.PrimaryStatSave",
+    "stealth": "BOILERPLATE.PrimaryStatStealth"
+}
+
 BOILERPLATE.abilityAbbreviations = {
   "str": "BOILERPLATE.AbilityStrAbbr",
   "dex": "BOILERPLATE.AbilityDexAbbr",

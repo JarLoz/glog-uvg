@@ -50,8 +50,16 @@ export class BoilerplateActor extends Actor {
 
     // Loop through ability scores, and add their modifiers to our sheet output.
     for (let [key, ability] of Object.entries(systemData.abilities)) {
-      // Calculate the modifier using d20 rules.
-      ability.mod = Math.floor((ability.value - 10) / 2);
+      let value = ability.value;
+      if (value <= 2) ability.mod = -3;
+      if (value == 3 || value == 4 || value == 5) ability.mod = -2;
+      if (value == 6 || value == 7 || value == 8) ability.mod = -1;
+      if (value == 9 || value == 10 || value == 11) ability.mod = 0;
+      if (value == 12 || value == 13 || value == 14) ability.mod = 1;
+      if (value == 15 || value == 16 || value == 17) ability.mod = 2;
+      if (value == 18 || value == 19 || value == 20) ability.mod = 3;
+      if (value == 21 || value == 22 || value == 23) ability.mod = -2;
+      if (value >= 24) ability.mod = 5;
     }
   }
 

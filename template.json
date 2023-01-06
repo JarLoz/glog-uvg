@@ -61,17 +61,12 @@
       },
       "hasPrimaryStats": {
         "primaryStats": {
-          "meleeAttack": {
+          "attack": {
             "value": 0,
             "mod": 0,
             "total": 0
           },
-          "rangeAttack": {
-            "value": 0,
-            "mod": 0,
-            "total": 0
-          },
-          "def": {
+          "defence": {
             "value": 0,
             "mod": 0,
             "total": 0
@@ -81,71 +76,15 @@
             "mod": 0,
             "total": 0
           },
-          "sth": {
+          "stealth": {
             "value": 0,
             "mod": 0,
             "total": 0
           },
-          "mv": {
+          "move": {
             "value": 0,
             "mod": 0,
             "total": 0
-          }
-        },
-        "stats": {
-          "meleeAttack": {
-            "value": 0
-          },
-          "rangeAttack": {
-            "value": 0
-          },
-          "sth": {
-            "value": 0
-          },
-          "doc": {
-            "value": 0
-          },
-          "mv": {
-            "value": 0
-          },
-          "invQuick": {
-            "value": 0
-          },
-          "invSlow": {
-            "value": 0
-          },
-          "er": {
-            "value": 0
-          },
-          "meleeDamage": {
-            "value": 0
-          },
-          "meleeCritRange": {
-            "value": 1
-          },
-          "meleeFumbleRange": {
-            "value": 0
-          },
-          "rangeDamage": {
-            "value": 0
-          },
-          "rangeCritRange": {
-            "value": 1
-          },
-          "rangeFumbleRange": {
-            "value": 0
-          },
-          "rangeDistanceMod": {
-            "value": 0
-          },
-          "rangeDecayMod": {
-            "value": 0
-          },
-          "fatigueMod": {
-            "value": 0
-          },
-          "initMod": {
-            "value": 0
           }
         },
         "aux": {
