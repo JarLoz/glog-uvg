@@ -125,7 +125,8 @@ export class BoilerplateActor extends Actor {
           label: 'Cancel',
           callback: () => {}
         }
-      }
+      },
+      default: 'one'
     });
     d.render(true);
   }
@@ -246,11 +247,26 @@ export class BoilerplateActor extends Actor {
     let formula = "d12 + " + (this.system.hp.value * -1) + " + " + injuries;
     let roll = new Roll(formula, this.getRollData());
     roll.evaluate({async: false});
-    let result = roll.total;
+    let xvalue = roll.total;
+
+    let fatalwounds = 0;
+    let majorinjury = false;
+    
+    if (xvalue >= 11) {
+      fatalwounds = 1;
+      majorinjury = true;
+    }
+
+    if (xvalue >= 16) {
+      fatalwounds += xvalue - 15;
+    }
 
     let templateData = {
       formula: formula,
-      rollvalue: result
+      xvalue: xvalue,
+      majorinjury: majorinjury,
+      fatalwounds: fatalwounds,
+      img: this.img
     };
 
     let chatData = {
