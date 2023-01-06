@@ -331,23 +331,61 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
   _rollAttack(weapon, bonus, defense) {
-      let template = "systems/glog-uvg/templates/chat/roll-attack.html";
-      let templateData = {
-          variable: "coolstring"
-      };
-      let chatData = {
-          user: game.user.id,
-          speaker: {
-              actor: this.actor.id,
-              token: this.actor.token,
-              alias: this.actor.name
-          },
-          sound: CONFIG.sounds.dice
-      };
-      renderTemplate(template, templateData).then(content => {
-          chatData.content = content;
-          ChatMessage.create(chatData);
-      });
+    let hitroll = new Roll("d20", this.actor.getRollData());
+    hitroll.evaluate({async: false});
+    let damageroll = new Roll(weapon.system.damage, this.actor.getRollData());
+    damageroll.evaluate({async: false});
+    let opposedData = this._evaluateOpposed(this.actor.system.primaryStats.attack.total, bonus, defense);
+    let hitrollresult = hitroll.total;
+    let success = (hitrollresult <= opposedData.total);
+    let damagerolltotal = damageroll.total;
+
+    let templateData = {
+      weaponname: weapon.name,
+      targetvalue: opposedData.total,
+      targetcalc: opposedData.formula,
+      rollvalue: hitroll.total,
+      damagevalue: damageroll.total,
+      weapondamageroll: weapon.system.damage,
+      success: success
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.actor.id,
+        token: this.actor.token,
+        alias: this.actor.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-attack.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
+  _evaluateOpposed(stat, bonus, opposed) {
+    let bonusval = parseInt(bonus);
+    let opposedval = parseInt(opposed);
+    let total = stat + 10;
+    if (isNaN(bonusval)) {
+      bonusval = 0;
+    }
+    if (isNaN(opposedval)) {
+      opposedval = 0;
+    }
+    total = total + bonusval - opposedval;
+    let formula = "";
+    if (bonusval != 0) {
+      formula += `(${stat} + ${bonusval})`;
+    } else {
+      formula += `${stat}`;
+    }
+    formula += ` + (10 - ${opposedval})`;
+    return {total: total, formula: formula};
   }
 
   _rollDamage(weapon) {
