@@ -3,6 +3,7 @@
   <span class="quickslots-used">Quickslots used: {{usedQuickslots}} / 3 </span>
 </div>
 <ol class="items-list">
+  <li class="divider flexrow"><h1>Quick</h1></li>
   <li class="item flexrow items-header">
     <div class="item-name">Name</div>
     <div class="item-type">Type</div>
@@ -13,15 +14,48 @@
       <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i> Add item</a>
     </div>
   </li>
+  {{#each quicks as |item id|}}
+    {{> "systems/glog-uvg/templates/actor/parts/actor-item-row.html" item}}
+  {{/each}}
   <li class="divider flexrow"><h1>Weapons</h1></li>
+  <li class="item flexrow items-header">
+    <div class="item-name">Name</div>
+    <div class="item-type">Type</div>
+    <div class="item-slots">Slots</div>
+    <div class="item-quantity">Quantity</div>
+    <div class="item-quickslot">Quickslot?</div>
+    <div class="item-controls">
+      <a class="item-control item-create" title="Create item" data-type="weapon"><i class="fas fa-plus"></i> Add weapon</a>
+    </div>
+  </li>
   {{#each weapons as |item id|}}
     {{> "systems/glog-uvg/templates/actor/parts/actor-item-row.html" item}}
   {{/each}}
   <li class="divider flexrow"><h1>Equipment</h1></li>
+  <li class="item flexrow items-header">
+    <div class="item-name">Name</div>
+    <div class="item-type">Type</div>
+    <div class="item-slots">Slots</div>
+    <div class="item-quantity">Quantity</div>
+    <div class="item-quickslot">Quickslot?</div>
+    <div class="item-controls">
+      <a class="item-control item-create" title="Create item" data-type="equipment"><i class="fas fa-plus"></i> Add equipment</a>
+    </div>
+  </li>
   {{#each equipment as |item id|}}
     {{> "systems/glog-uvg/templates/actor/parts/actor-item-row.html" item}}
   {{/each}}
   <li class="divider flexrow"><h1>Loot</h1></li>
+  <li class="item flexrow items-header">
+    <div class="item-name">Name</div>
+    <div class="item-type">Type</div>
+    <div class="item-slots">Slots</div>
+    <div class="item-quantity">Quantity</div>
+    <div class="item-quickslot">Quickslot?</div>
+    <div class="item-controls">
+      <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i> Add loot</a>
+    </div>
+  </li>
   {{#each loot as |item id|}}
     {{> "systems/glog-uvg/templates/actor/parts/actor-item-row.html" item}}
   {{/each}}

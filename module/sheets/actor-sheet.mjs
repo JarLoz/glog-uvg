@@ -85,6 +85,7 @@ export class BoilerplateActorSheet extends ActorSheet {
    */
   _prepareItems(context) {
     // Initialize containers.
+    const quicks = [];
     const weapons = [];
     const equipment = [];
     const loot = [];
@@ -96,6 +97,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
+      let quick = false;
       i.img = i.img || DEFAULT_TOKEN;
 
       if (i.type === 'weapon' || i.type === 'equipment' || i.type === 'loot'){
@@ -106,17 +108,19 @@ export class BoilerplateActorSheet extends ActorSheet {
           i.hasQuantity = false;
         }
         if (i.system.quickslot === true) {
+          quick = true;
           usedQuickslots++;
+          quicks.push(i);
         }
       }
       // Append to gear.
-      if (i.type === 'weapon') {
+      if (i.type === 'weapon' && !quick) {
         weapons.push(i);
       }
-      if (i.type === 'equipment') {
+      if (i.type === 'equipment' && !quick) {
         equipment.push(i);
       }
-      if (i.type === 'loot') {
+      if (i.type === 'loot' && !quick) {
         loot.push(i);
       }
       // Append to features.
@@ -133,6 +137,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
 
     // Assign and return
+    context.quicks = quicks;
     context.weapons = weapons;
     context.equipment = equipment;
     context.loot = loot;
