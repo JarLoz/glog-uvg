@@ -92,6 +92,93 @@ export class BoilerplateActor extends Actor {
     return data;
   }
 
+  rollAbility(key) {
+    let value = this.system.abilities[key].total;
+    let statname = game.i18n.localize(CONFIG.BOILERPLATE.abilities[key]) ?? key;
+    this._showRollDialog(statname, value);
+  }
+
+  rollStat(key) {
+    let value = this.system.primaryStats[key].total;
+    let statname = game.i18n.localize(CONFIG.BOILERPLATE.stats[key]) ?? key;
+    this._showRollDialog(statname, value);
+  }
+
+  _showRollDialog(statname, value) {
+    let d = new Dialog({
+      title: `Rolling d20 <= ${statname}!`,
+      content: "<div class='dialog grid grid-2-col'>\
+      <div class='target flex-group-center'>\
+      <div class='target-header'>Target:</div>\
+      <div class='target-header'>" + value + "</div>\
+      </div>\
+      <div class='modifier flex-group-center'>\
+      <label for='modifier'>Modifier?</label>\
+      <input id='modifier' name='modifier' type='text' size='3' value='0'></input>\
+      </div>\
+      </div>\
+      ",
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-check"></i>',
+          label: 'Roll!',
+          callback: (html) => this._rollUnder(value, statname, html.find('[id=\"modifier\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
+    });
+    d.render(true);
+  }
+
+  _rollUnder(value, statname, bonus) {
+    let bonusval = parseInt(bonus);
+    if (isNaN(bonusval)) {
+      bonusval = 0;
+    }
+    let target = value + bonusval;
+
+    let targetcalc = false;
+    if (bonusval > 0) {
+      targetcalc = `${value} + ${bonusval}`;
+    }
+    if (bonusval < 0) {
+      targetcalc = `${value} - ${bonusval * -1}`;
+    }
+
+    let roll = new Roll("d20", this.getRollData());
+    roll.evaluate({async: false});
+    let result = roll.total;
+    let success = (result <= target);
+
+    let templateData = {
+      statname: statname,
+      targetvalue: target,
+      targetcalc: targetcalc,
+      rollvalue: result,
+      success: success
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.id,
+        token: this.token,
+        alias: this.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-under.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
   /**
    * Prepare character roll data.
    */

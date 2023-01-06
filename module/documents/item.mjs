@@ -51,16 +51,25 @@ export class BoilerplateItem extends Item {
   }
 
   _showAttackRollDialog() {
+    let target = this.actor.system.primaryStats.attack.total;
     let d = new Dialog({
-      title: `Attacking with ${this.name}`,
-      content: "<div class='dialog grid grid-2-col'>\
-      <div class='bonus flex-group-center'>\
-      <label for='bonusval'>Bonus?</label>\
-      <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
+      title: `Attacking with ${this.name}!`,
+      content: "<div class='dialog attack-dialog grid grid-2-col'>\
+      <div class='target flex-group-center'>\
+      <div class='target-header'>Target:</div>\
+      <div class='target-value'>" + target + "</div>\
       </div>\
-      <div class='opposed flex-group-center'>\
-      <label for='opposedval'>Defence</label>\
-      <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
+      <div class='modifier flex-group-center'>\
+      <label for='modifier'>Modifier?</label>\
+      <input id='modifier' name='modifier' type='text' size='3' value='0'></input>\
+      </div>\
+      <div class='damage flex-group-center'>\
+      <div class='damage-header'>Damage:</div>\
+      <div class='damage-value'>" + this.system.damage + "</div>\
+      </div>\
+      <div class='dmg-modifier flex-group-center'>\
+      <label for='dmg-modifier'>Damage modifier?</label>\
+      <input id='dmg-modifier' name='dmg-modifier' type='text' size='6' value=''></input>\
       </div>\
       </div>\
       ",
@@ -68,7 +77,7 @@ export class BoilerplateItem extends Item {
         one: {
           icon: '<i class="fas fa-swords"></i>',
           label: 'Attack!',
-          callback: (html) => this._rollAttack(html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
+          callback: (html) => this._rollAttack(html.find('[id=\"modifier\"]')[0].value,html.find('[id=\"dmg-modifier\"]')[0].value)
         },
         two: {
           icon: '<i class="fas fa-swords"></i>',
@@ -85,24 +94,48 @@ export class BoilerplateItem extends Item {
     d.render(true);
   }
 
-  _rollAttack(bonus, defense) {
+  _rollAttack(modifier, damageModifier) {
     let weapon = this;
+
     let hitroll = new Roll("d20", this.actor.getRollData());
     hitroll.evaluate({async: false});
-    let damageroll = new Roll(weapon.system.damage, this.actor.getRollData());
-    damageroll.evaluate({async: false});
-    let opposedData = evaluateOpposed(this.actor.system.primaryStats.attack.total, bonus, defense);
     let hitrollresult = hitroll.total;
-    let success = (hitrollresult <= opposedData.total);
-    let damagerolltotal = damageroll.total;
+
+    let damageformula = weapon.system.damage;
+
+    if (damageModifier) {
+      damageformula += ' + ' + damageModifier;
+    }
+
+    let damageroll = new Roll(damageformula, this.actor.getRollData());
+    damageroll.evaluate({async: false});
+    let damagerollresult = damageroll.total;
+
+    let attack = this.actor.system.primaryStats.attack.total;
+
+    let bonusval = parseInt(modifier);
+    if (isNaN(bonusval)) {
+      bonusval = 0;
+    }
+    let target = attack + bonusval;
+
+    let targetcalc = false;
+    if (bonusval > 0) {
+      targetcalc = `${attack} + ${bonusval}`;
+    }
+    if (bonusval < 0) {
+      targetcalc = `${attack} - ${bonusval * -1}`;
+    }
+
+    let success = (hitrollresult <= target);
 
     let templateData = {
       weaponname: weapon.name,
-      targetvalue: opposedData.total,
-      targetcalc: opposedData.formula,
-      rollvalue: hitroll.total,
-      damagevalue: damageroll.total,
-      weapondamageroll: weapon.system.damage,
+      targetvalue: target,
+      targetcalc: targetcalc,
+      rollvalue: hitrollresult,
+      damagevalue: damagerollresult,
+      weapondamageroll: damageformula,
       success: success
     };
 

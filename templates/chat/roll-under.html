@@ -1,11 +1,11 @@
-<div class="attack-roll">
-  <div class="attack-header">Attacking with {{weaponname}}!</div>
-  <div class="targetbox">
+<h2 class="under-header">{{statname}} Check!</h2>
+<div class="under-roll">
+  <div class="targetbox flex-group-center">
     <div class="target-header">Target:</div>
     <div class="target-value">{{targetvalue}}</div>
     {{#if targetcalc}}<div class="target-calculation">{{targetcalc}}</div>{{/if}}
   </div>
-  <div class="rollbox">
+  <div class="rollbox flex-group-center">
     <div class="roll-header">Roll (d20):</div>
     <div class="roll-result">{{rollvalue}}</div>
     {{#if success}}
@@ -13,9 +13,5 @@
     {{else}}
     <div class="roll-failure">FAILURE!</div>
     {{/if}}
-  </div>
-  <div class="damagebox">
-    <div class="damage-header">Damage ({{weapondamageroll}}):</div>
-    <div class="damage-value">{{damagevalue}}</div>
   </div>
 </div>
