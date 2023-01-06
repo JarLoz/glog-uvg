@@ -1,0 +1,13 @@
+<ol class="items-list">
+  <li class="divider flexrow"><h1>Weapons</h1></li>
+  <li class="item flexrow items-header">
+    <div class="item-name">Name</div>
+    <div class="item-action">Action</div>
+    <div class="item-controls">
+      <a class="item-control item-create" title="Create item" data-type="weapon"><i class="fas fa-plus"></i> Add weapon</a>
+    </div>
+  </li>
+  {{#each weapons as |item id|}}
+    {{> "systems/glog-uvg/templates/actor/parts/actor-item-row.html" item}}
+  {{/each}}
+</ol>
