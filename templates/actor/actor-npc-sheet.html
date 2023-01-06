@@ -67,8 +67,8 @@
             {{#each system.primaryStats as |stat key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.primaryStats.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="primarystat" data-roll-stat="{{key}}" data-label="{{stat.label}}">{{stat.label}}</label>
-              <input type="text" name="system.primaryStats.{{key}}.value" value="{{stat.value}}" data-dtype="Number"/>
-              <input type="text" name="system.primaryStats.{{key}}.mod" value="{{stat.mod}}" data-dtype="Number"/>
+              <input type="number" name="system.primaryStats.{{key}}.value" value="{{stat.value}}" data-dtype="Number"/>
+              <input type="number" name="system.primaryStats.{{key}}.mod" value="{{stat.mod}}" data-dtype="Number"/>
             </div>
             {{/each}}
           </div>

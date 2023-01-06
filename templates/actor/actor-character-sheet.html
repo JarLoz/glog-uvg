@@ -75,8 +75,8 @@
             {{#each system.abilities as |ability key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="ability" data-roll-ability="{{key}}" data-label="{{ability.label}}">{{ability.label}}</label>
-              <input type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-              <input type="text" name="system.abilities.{{key}}.mod" value="{{ability.mod}}" data-dtype="Number"/>
+              <input type="number" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
+              <input type="number" name="system.abilities.{{key}}.mod" value="{{ability.mod}}" data-dtype="Number"/>
               <span class="ability-bonus rollable" data-roll="d20+@abilities.{{key}}.bonus" data-label="d20 + {{ability.label}} bonus">{{numberFormat ability.bonus decimals=0 sign=true}}</span>
             </div>
             {{/each}}
@@ -90,8 +90,8 @@
             {{#each system.primaryStats as |stat key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.primaryStats.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="primarystat" data-roll-stat="{{key}}" data-label="{{stat.label}}">{{stat.label}}</label>
-              <input type="text" name="system.primaryStats.{{key}}.value" value="{{stat.value}}" data-dtype="Number"/>
-              <input type="text" name="system.primaryStats.{{key}}.mod" value="{{stat.mod}}" data-dtype="Number"/>
+              <input type="number" name="system.primaryStats.{{key}}.value" value="{{stat.value}}" data-dtype="Number"/>
+              <input type="number" name="system.primaryStats.{{key}}.mod" value="{{stat.mod}}" data-dtype="Number"/>
             </div>
             {{/each}}
           </div>
