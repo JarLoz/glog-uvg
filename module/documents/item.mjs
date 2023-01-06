@@ -85,7 +85,7 @@ export class BoilerplateItem extends Item {
         two: {
           icon: '<i class="fas fa-swords"></i>',
           label: 'Damage!',
-          callback: (html) => this._rollDamage()
+          callback: (html) => this._rollDamage(html.find('[id=\"dmg-modifier\"]')[0].value)
         },
         three: {
           icon: '<i class="fas fa-ban"></i>',
@@ -164,7 +164,39 @@ export class BoilerplateItem extends Item {
     });
   }
 
-  _rollDamage() {
+  _rollDamage(damageModifier) {
+    let weapon = this;
+    let damageformula = weapon.system.damage;
+
+    if (damageModifier) {
+      damageformula += ' + ' + damageModifier;
+    }
+    let damageroll = new Roll(damageformula, this.actor.getRollData());
+    damageroll.evaluate({async: false});
+    let damagerollresult = damageroll.total;
+
+    let templateData = {
+      weaponname: weapon.name,
+      damagevalue: damagerollresult,
+      weapondamageroll: damageformula,
+      img: weapon.img
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.actor.id,
+        token: this.actor.token,
+        alias: this.actor.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-damage.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
   }
 
   _showSpellRollDialog() {
