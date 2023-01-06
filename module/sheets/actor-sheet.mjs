@@ -69,7 +69,7 @@ export class BoilerplateActorSheet extends ActorSheet {
   _prepareCharacterData(context) {
     // Handle ability scores.
     for (let [k, v] of Object.entries(context.system.abilities)) {
-      v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilities[k]) ?? k;
+      v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilityAbbreviationsCaps[k]) ?? k;
     }
     for (let [k, v] of Object.entries(context.system.primaryStats)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
@@ -215,12 +215,12 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item) return item.roll();
       } else if (dataset.rollType == 'ability') {
         let key = dataset.rollAbility;
-        let value = this.actor.system.abilities[key].value;
+        let value = this.actor.system.abilities[key].total;
         let statname = dataset.label;
         this._showRollDialog(statname, value);
       } else if (dataset.rollType == 'primarystat') {
         let key = dataset.rollStat;
-        let value = this.actor.system.primaryStats[key].value;
+        let value = this.actor.system.primaryStats[key].total;
         let statname = dataset.label;
         this._showRollDialog(statname, value);
       }

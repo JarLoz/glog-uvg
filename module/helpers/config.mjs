@@ -29,3 +29,12 @@ BOILERPLATE.abilityAbbreviations = {
   "wis": "BOILERPLATE.AbilityWisAbbr",
   "cha": "BOILERPLATE.AbilityChaAbbr"
 };
+
+BOILERPLATE.abilityAbbreviationsCaps = {
+  "str": "BOILERPLATE.AbilityStrAbbrCaps",
+  "dex": "BOILERPLATE.AbilityDexAbbrCaps",
+  "con": "BOILERPLATE.AbilityConAbbrCaps",
+  "int": "BOILERPLATE.AbilityIntAbbrCaps",
+  "wis": "BOILERPLATE.AbilityWisAbbrCaps",
+  "cha": "BOILERPLATE.AbilityChaAbbrCaps"
+};

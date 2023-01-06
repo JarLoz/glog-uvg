@@ -70,19 +70,32 @@
           use both the "grid" and "grid-Ncol" class where "N" can be any number
           from 1 to 12 and will create that number of columns.  --}}
           <div class="abilities flexcol">
+            <div class="ability flexrow flex-group-center">
+              <span class="resource-label flexlarge align-left">Abilities</span>
+              <span class="resource-label">Value</span>
+              <span class="resource-label">Mod</span>
+              <span class="resource-label">Bonus</span>
+            </div>
             {{#each system.abilities as |ability key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="ability" data-roll-ability="{{key}}" data-label="{{ability.label}}">{{ability.label}}</label>
               <input type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-              <span class="ability-mod rollable" data-roll="d20+@abilities.{{key}}.mod" data-label="d20 + {{ability.label}} mod">{{numberFormat ability.mod decimals=0 sign=true}}</span>
+              <input type="text" name="system.abilities.{{key}}.mod" value="{{ability.mod}}" data-dtype="Number"/>
+              <span class="ability-bonus rollable" data-roll="d20+@abilities.{{key}}.bonus" data-label="d20 + {{ability.label}} bonus">{{numberFormat ability.bonus decimals=0 sign=true}}</span>
             </div>
             {{/each}}
           </div>
           <div class="abilities flexcol">
+            <div class="ability flexrow flex-group-center">
+              <span class="resource-label flexlarge align-left">Stats</span>
+              <span class="resource-label">Value</span>
+              <span class="resource-label">Mod</span>
+            </div>
             {{#each system.primaryStats as |stat key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.primaryStats.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="primarystat" data-roll-stat="{{key}}" data-label="{{stat.label}}">{{stat.label}}</label>
               <input type="text" name="system.primaryStats.{{key}}.value" value="{{stat.value}}" data-dtype="Number"/>
+              <input type="text" name="system.primaryStats.{{key}}.mod" value="{{stat.mod}}" data-dtype="Number"/>
             </div>
             {{/each}}
           </div>

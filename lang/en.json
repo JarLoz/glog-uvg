@@ -13,6 +13,13 @@
   "BOILERPLATE.AbilityWisAbbr": "wis",
   "BOILERPLATE.AbilityChaAbbr": "cha",
 
+  "BOILERPLATE.AbilityStrAbbrCaps": "STR",
+  "BOILERPLATE.AbilityConAbbrCaps": "CON",
+  "BOILERPLATE.AbilityDexAbbrCaps": "DEX",
+  "BOILERPLATE.AbilityIntAbbrCaps": "INT",
+  "BOILERPLATE.AbilityWisAbbrCaps": "WIS",
+  "BOILERPLATE.AbilityChaAbbrCaps": "CHA",
+
   "BOILERPLATE.PrimaryStatAttack": "Attack",
   "BOILERPLATE.PrimaryStatDefence": "Defence",
   "BOILERPLATE.PrimaryStatMove": "Move",

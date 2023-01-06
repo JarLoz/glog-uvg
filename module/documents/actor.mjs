@@ -48,18 +48,23 @@ export class BoilerplateActor extends Actor {
     // Make modifications to data here. For example:
     const systemData = actorData.system;
 
-    // Loop through ability scores, and add their modifiers to our sheet output.
+    // Loop through ability scores, calculate totals and add their modifiers to our sheet output.
     for (let [key, ability] of Object.entries(systemData.abilities)) {
-      let value = ability.value;
-      if (value <= 2) ability.mod = -3;
-      if (value == 3 || value == 4 || value == 5) ability.mod = -2;
-      if (value == 6 || value == 7 || value == 8) ability.mod = -1;
-      if (value == 9 || value == 10 || value == 11) ability.mod = 0;
-      if (value == 12 || value == 13 || value == 14) ability.mod = 1;
-      if (value == 15 || value == 16 || value == 17) ability.mod = 2;
-      if (value == 18 || value == 19 || value == 20) ability.mod = 3;
-      if (value == 21 || value == 22 || value == 23) ability.mod = -2;
-      if (value >= 24) ability.mod = 5;
+      let value = ability.value + ability.mod;
+      ability.total = value;
+      if (value <= 2) ability.bonus = -3;
+      if (value == 3 || value == 4 || value == 5) ability.bonus = -2;
+      if (value == 6 || value == 7 || value == 8) ability.bonus = -1;
+      if (value == 9 || value == 10 || value == 11) ability.bonus = 0;
+      if (value == 12 || value == 13 || value == 14) ability.bonus = 1;
+      if (value == 15 || value == 16 || value == 17) ability.bonus = 2;
+      if (value == 18 || value == 19 || value == 20) ability.bonus = 3;
+      if (value == 21 || value == 22 || value == 23) ability.bonus = 4;
+      if (value >= 24) ability.bonus = 5;
+    }
+
+    for (let [key, stat] of Object.entries(systemData.primaryStats)) {
+      stat.total = stat.value + stat.mod;
     }
   }
 
