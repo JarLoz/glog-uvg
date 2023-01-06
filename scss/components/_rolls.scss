@@ -52,4 +52,17 @@
             font-size: 2em;
         }
     }
+    .spellbox {
+        .spell-header, .spell-total {
+            font-size: 1.2em;
+        }
+        .spell-result {
+            font-size: 1em;
+            color: #7b7b7b;
+        }
+        .spell-mishap {
+            font-size: 2em; 
+            color: red;
+        }
+    }
 }
