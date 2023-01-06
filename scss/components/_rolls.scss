@@ -43,4 +43,13 @@
             color: red;
         }
     }
+    .damagebox {
+        .damage-header {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .damage-value {
+            font-size: 2em;
+        }
+    }
 }

@@ -64,7 +64,7 @@ export class BoilerplateItem extends Item {
       </div>\
       <div class='modifier flex-group-center'>\
       <label for='modifier'>Modifier?</label>\
-      <input id='modifier' name='modifier' type='text' size='3' value='"+prevRollModifier +"'></input>\
+      <input id='modifier' name='modifier' type='number' value='"+prevRollModifier +"'></input>\
       </div>\
       <div class='damage flex-group-center'>\
       <div class='damage-header'>Damage:</div>\
@@ -143,7 +143,8 @@ export class BoilerplateItem extends Item {
       rollvalue: hitrollresult,
       damagevalue: damagerollresult,
       weapondamageroll: damageformula,
-      success: success
+      success: success,
+      img: weapon.img
     };
 
     let chatData = {
