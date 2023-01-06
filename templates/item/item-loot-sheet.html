@@ -1,3 +1,4 @@
+
 <form class="{{cssClass}}" autocomplete="off">
   <header class="sheet-header">
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
@@ -37,21 +38,7 @@
 
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <div class="grid grid-2col">
-        <label class="resource-label">Type</label>
-        <select name="system.weaponType" value="{{system.weaponType}}" data-dtype="String">
-          {{#each typeselect as | selected |}}
-          {{#if selected}}
-          <option value={{@key}} selected="true">{{@key}}</option>
-          {{else}}
-          <option value={{@key}}>{{@key}}</option>
-          {{/if}}
-          {{/each}}
-        </select>
-        <label class="resource-label">Damage Formula</label>
-        <input type="text" name="system.damage" value="{{system.damage}}" data-dtype="String"/>
-        {{!-- As you add new fields, add them in here! --}}
-      </div>
+    {{!-- As you add new fields, add them in here! --}}
     </div>
   </section>
 </form>
