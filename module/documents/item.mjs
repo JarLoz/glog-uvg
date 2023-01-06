@@ -36,6 +36,8 @@ export class BoilerplateItem extends Item {
     const item = this;
     if (this.type == "weapon"){
       this._showAttackRollDialog();
+    } else if (this.type == "spell") {
+      this._showSpellRollDialog();
     } else {
       const speaker = ChatMessage.getSpeaker({ actor: this.actor });
       const rollMode = game.settings.get('core', 'rollMode');
@@ -158,4 +160,67 @@ export class BoilerplateItem extends Item {
 
   _rollDamage() {
   }
+
+  _showSpellRollDialog() {
+    let target = this.actor.system.primaryStats.attack.total;
+    let d = new Dialog({
+      title: `Casting ${this.name}!`,
+      content: `<div class='dialog casting-dialog grid grid-2-col'>\
+      <div class='target flex-group-center'>\
+      ${this.system.description}\
+      </div>\
+      <div class='dice flex-group-center'>\
+      <label for='dice'>Magic Dice?</label>\
+      <input id='dice' name='dice' type='number' min='1' max='10' size='3' value='1'></input>\
+      </div>\
+      </div>\
+      `,
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Cast!',
+          callback: (html) => this._rollCasting(html.find('[id=\"dice\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
+    });
+    d.render(true);
+  }
+
+  _rollCasting(dice) {
+    let formula = dice + "d6";
+    let castroll = new Roll(formula, this.actor.getRollData());
+    let rollResult =  castroll.evaluate({async: false});
+    let terms = rollResult.terms[0].results.map(o => {return o.result;});
+
+    let templateData = {
+      spellname: this.name,
+      description: this.description,
+      formula: formula,
+      count: dice,
+      resultstring: "(" + terms.toString() + ")",
+      total: rollResult.total
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.actor.id,
+        token: this.actor.token,
+        alias: this.actor.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-spell.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
 }
