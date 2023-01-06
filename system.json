@@ -1,9 +1,9 @@
 {
-  "name": "boilerplate",
-  "id": "boilerplate",
-  "title": "Boilerplate",
-  "description": "The Boilerplate system for FoundryVTT!",
-  "version": "1.2.0",
+  "name": "glog-uvg",
+  "id": "glog-uvg",
+  "title": "GLOG-UVG",
+  "description": "GLOGHack for Ultraviolet Grasslands",
+  "version": "1.0.0",
   "minimumCoreVersion": "10",
   "compatibleCoreVersion": "10",
   "compatibility": {
@@ -11,7 +11,7 @@
     "verified": "10.272"
   },
   "authors": [{
-    "name": "Asacolips"
+    "name": "JarLoz"
   }],
   "esmodules": ["module/boilerplate.mjs"],
   "styles": ["css/boilerplate.css"],
