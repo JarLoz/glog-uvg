@@ -215,15 +215,40 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item) return item.roll();
       } else if (dataset.rollType == 'ability') {
         let key = dataset.rollAbility;
-        let value = this.actor.system.abilities[key].value;
-        let label = dataset.label ? `[ability check] ${dataset.label}: ${value}` : '';
-        let roll = new Roll("d20", this.actor.getRollData());
-        roll.toMessage({
-          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-          flavor: label,
-          rollMode: game.settings.get('core', 'rollMode'),
+        let message = dataset.label;
+        //this._rollUnder(key, message);
+        let d = new Dialog({
+          title: `Rolling ${message}`,
+          content: "<div class='dialog grid grid-2-col'>\
+          <div class='bonus flex-group-center'>\
+          <label for='bonusval'>Bonus?</label>\
+          <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
+          </div>\
+          <div class='opposed flex-group-center'>\
+          <label for='opposedval'>Opposed?</label>\
+          <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
+          </div>\
+          </div>\
+          ",
+          buttons: {
+            one: {
+              icon: '<i class="fas fa-check"></i>',
+              label: 'Normal',
+              callback: (html) => this._rollUnder(key, message, html.find('[id=\"bonusval\"]')[0].value)
+            },
+            two: {
+              icon: '<i class="fas fa-swords"></i>',
+              label: 'Opposed',
+              callback: (html) => this._rollOpposed(key, message, html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
+            },
+            three: {
+              icon: '<i class="fas fa-ban"></i>',
+              label: 'Cancel',
+              callback: () => {}
+            }
+          }
         });
-        return roll;
+        d.render(true);
       }
     }
 
@@ -240,4 +265,41 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
   }
 
+  _rollUnder(key, message, bonus) {
+    let value = this.actor.system.abilities[key].value;
+    let bonusval = parseInt(bonus);
+    let total = value;
+    if (bonusval != NaN) {
+      total = value + bonusval;
+    }
+    let label = message ? `[ability check] ${message}: ${value} + ${bonusval} = ${total}` : '';
+    let roll = new Roll("d20", this.actor.getRollData());
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: label,
+      rollMode: game.settings.get('core', 'rollMode'),
+    });
+    return roll;
+  }
+
+  _rollOpposed(key, message, bonus, opposed) {
+    let value = this.actor.system.abilities[key].value;
+    let bonusval = parseInt(bonus);
+    let opposedval = parseInt(opposed);
+    let total = value + 10;
+    if (bonusval != NaN) {
+      total = total + bonusval;
+    }
+    if (opposedval != NaN) {
+      total = total - opposedval;
+    }
+    let label = message ? `[opposed check] ${message}: (${value} + ${bonusval}) + (10 - ${opposedval}) = ${total}` : '';
+    let roll = new Roll("d20", this.actor.getRollData());
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: label,
+      rollMode: game.settings.get('core', 'rollMode'),
+    });
+    return roll;
+  }
 }
