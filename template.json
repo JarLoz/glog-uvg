@@ -17,7 +17,8 @@
           "value": 0,
           "min": 0,
           "max": 0
-        }
+        },
+        "spellSlots": 0
       },
       "hasStatRow": {
         "abilities": {
@@ -355,7 +356,7 @@
         "affectsStats"
       ],
       "type": "cantrip",
-      "equipped": true
+      "equipped": false
     },
     "feature": {
       "templates": [

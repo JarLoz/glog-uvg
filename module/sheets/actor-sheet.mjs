@@ -92,6 +92,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     const spells = [];
     let usedSlots = 0;
     let usedQuickslots = 0;
+    let spellSlotsFree = context.system.spellSlots;
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
@@ -124,6 +125,9 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
       // Append to spells.
       else if (i.type === 'spell') {
+        if (i.system.equipped) {
+          spellSlotsFree--;
+        }
         spells.push(i);
       }
     }
@@ -136,6 +140,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.spells = spells;
     context.usedSlots = usedSlots;
     context.usedQuickslots = usedQuickslots;
+    context.spellSlotsFree = spellSlotsFree;
   }
 
   /* -------------------------------------------- */
@@ -178,6 +183,15 @@ export class BoilerplateActorSheet extends ActorSheet {
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
       item.system.quickslot = !item.system.quickslot;
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
+    // Update Spell
+    html.find('.item-memorized-edit').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.equipped = !item.system.equipped;
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 
