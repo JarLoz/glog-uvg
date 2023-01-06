@@ -46,6 +46,18 @@ export class BoilerplateItemSheet extends ItemSheet {
     context.system = itemData.system;
     context.flags = itemData.flags;
 
+    if (this.item.type == 'weapon') {
+        let typeselect = {};
+        ['melee', 'ranged'].forEach(typename => {
+            if (typename == this.item.system.weaponType) {
+                typeselect[typename] = true;
+            } else {
+                typeselect[typename] = false;
+            }
+        });
+        context.typeselect = typeselect;
+    }
+
     return context;
   }
 
