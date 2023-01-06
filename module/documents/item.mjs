@@ -96,7 +96,8 @@ export class BoilerplateItem extends Item {
           label: 'Cancel',
           callback: () => {}
         }
-      }
+      },
+      default: 'one',
     });
     d.render(true);
   }
@@ -233,7 +234,8 @@ export class BoilerplateItem extends Item {
           label: 'Cancel',
           callback: () => {}
         }
-      }
+      },
+      default: 'one'
     });
     d.render(true);
   }

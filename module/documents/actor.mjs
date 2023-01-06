@@ -181,7 +181,8 @@ export class BoilerplateActor extends Actor {
           label: 'Cancel',
           callback: () => {}
         }
-      }
+      },
+      default: 'one'
     });
     d.render(true);
   }
