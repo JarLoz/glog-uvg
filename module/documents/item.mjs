@@ -72,7 +72,7 @@ export class BoilerplateItem extends Item {
       </div>\
       <div class='dmg-modifier flex-group-center'>\
       <label for='dmg-modifier'>Damage modifier?</label>\
-      <input id='dmg-modifier' name='dmg-modifier' type='text' size='6' value=''></input>\
+      <input id='dmg-modifier' name='dmg-modifier' type='number' size='6' value=''></input>\
       </div>\
       </div>\
       ",
@@ -121,7 +121,6 @@ export class BoilerplateItem extends Item {
       bonusval = 0;
     }
     let update = {system:{primaryStats:{attack:{prevRollMod:bonusval}}}};
-    console.log(update);
     this.actor.update(update);
 
     let target = attack + bonusval;

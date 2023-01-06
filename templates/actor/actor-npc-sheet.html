@@ -35,16 +35,6 @@
             <input type="text" name="system.hp.max" value="{{system.hp.max}}" data-dtype="Number"/>
           </div>
         </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.md.value" class="resource-label">Magic Dice</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="text" name="system.md.value" value="{{system.md.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="text" name="system.md.max" value="{{system.md.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
       </div>
     </div>
   </header>
@@ -53,6 +43,7 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
     <a class="item" data-tab="features">Features</a>
+    <a class="item" data-tab="spells">Spells</a>
     <a class="item" data-tab="description">Description</a>
   </nav>
 
@@ -91,6 +82,10 @@
         </section>
 
       </section>
+    </div>
+    {{!-- Spells Tab --}}
+    <div class="tab spells" data-group="primary" data-tab="spells">
+      {{> "systems/glog-uvg/templates/actor/parts/actor-spells.html"}}
     </div>
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
