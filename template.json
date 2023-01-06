@@ -322,7 +322,6 @@
         "hasCost",
         "action",
         "worn",
-        "itemDescription",
         "affectsStats"
       ],
       "weaponType": "melee",
@@ -357,7 +356,6 @@
     "feature": {
       "templates": [
         "base",
-        "itemDescription",
         "affectsStats"
       ]
     },

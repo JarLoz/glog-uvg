@@ -87,24 +87,13 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Initialize containers.
     const gear = [];
     const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
+    const spells = [];
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN;
       // Append to gear.
-      if (i.type === 'item') {
+      if (i.type === 'weapon') {
         gear.push(i);
       }
       // Append to features.
@@ -113,11 +102,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
       // Append to spells.
       else if (i.type === 'spell') {
-          /*
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-              */
+        spells.push(i);
       }
     }
 
@@ -214,7 +199,11 @@ export class BoilerplateActorSheet extends ActorSheet {
       if (dataset.rollType == 'item') {
         const itemId = element.closest('.item').dataset.itemId;
         const item = this.actor.items.get(itemId);
-        if (item) return item.roll();
+        if (item) {
+            if (item.type == 'weapon') {
+                this._showAttackRollDialog(item);
+            }
+        }
       } else if (dataset.rollType == 'ability') {
         let key = dataset.rollAbility;
         let value = this.actor.system.abilities[key].total;
@@ -276,6 +265,41 @@ export class BoilerplateActorSheet extends ActorSheet {
     d.render(true);
   }
 
+  _showAttackRollDialog(weapon) {
+    let d = new Dialog({
+      title: `Attacking with ${weapon.name}`,
+      content: "<div class='dialog grid grid-2-col'>\
+      <div class='bonus flex-group-center'>\
+      <label for='bonusval'>Bonus?</label>\
+      <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
+      </div>\
+      <div class='opposed flex-group-center'>\
+      <label for='opposedval'>Defence</label>\
+      <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
+      </div>\
+      </div>\
+      ",
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Attack!',
+          callback: (html) => this._rollAttack(weapon, html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Damage!',
+          callback: (html) => this._rollDamage(weapon)
+        },
+        three: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
+    });
+    d.render(true);
+  }
+
   _rollUnder(value, message, bonus) {
     let bonusval = parseInt(bonus);
     let total = value;
@@ -304,6 +328,29 @@ export class BoilerplateActorSheet extends ActorSheet {
       total = total + bonusval - opposedval;
     let label = message ? `[opposed check] ${message}: (${value} + ${bonusval}) + (10 - ${opposedval}) = ${total}` : '';
     return this._doD20Roll(label);
+  }
+
+  _rollAttack(weapon, bonus, defense) {
+      let template = "systems/glog-uvg/templates/chat/roll-attack.html";
+      let templateData = {
+          variable: "coolstring"
+      };
+      let chatData = {
+          user: game.user.id,
+          speaker: {
+              actor: this.actor.id,
+              token: this.actor.token,
+              alias: this.actor.name
+          },
+          sound: CONFIG.sounds.dice
+      };
+      renderTemplate(template, templateData).then(content => {
+          chatData.content = content;
+          ChatMessage.create(chatData);
+      });
+  }
+
+  _rollDamage(weapon) {
   }
 
   _doD20Roll(label) {
