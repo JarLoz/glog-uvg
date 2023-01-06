@@ -1,14 +1,22 @@
+<div class="roll-header">
+  <img src={{img}} width="50" height="50"/>
+  <h2>Casting {{spellname}}!</h2>
+</div>
 <div class="spell-roll">
-  <div class="attack-header">Casting {{spellname}}!</div>
   <div class="descriptionbox">
-    <div class="description-header">Description:</div>
     <div class="description-content">
-      {{description}}
+      {{{description}}}
     </div>
   </div>
-  <div class="rollbox">
-    <div class="roll-header">Roll {{formula}}!</div>
-    <div class="roll-result">{{resultstring}}</div>
-    <div class="roll-total">{{total}}</div>
+  <div class="spellbox">
+    <div class="spell-header">[dice]: {{count}}</div>
+    <div class="spell-total">[sum]: {{total}}</div>
+    <div class="spell-result">Roll: {{resultstring}}</div>
+    {{#if mishap}}
+      <div class="spell-mishap">Doubles, MISHAP!</div>
+    {{/if}}
+    {{#if doom}}
+      <div class="spell-mishap">Triples, DOOM!</div>
+    {{/if}}
   </div>
 </div>

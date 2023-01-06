@@ -233,14 +233,37 @@ export class BoilerplateItem extends Item {
     let castroll = new Roll(formula, this.actor.getRollData());
     let rollResult =  castroll.evaluate({async: false});
     let terms = rollResult.terms[0].results.map(o => {return o.result;});
+    let mishap = false;
+    let doom = false;
+    let termcount = {};
+    for (let term of terms) {
+      if (term in termcount) {
+        termcount[term]++;
+      } else {
+        termcount[term] = 1;
+      }
+      if (termcount[term] >= 2) {
+        mishap = true;
+      }
+      if (termcount[term] >= 3) {
+        doom = true;
+      }
+    }
+
+    if (doom) {
+      mishap = false;
+    }
 
     let templateData = {
       spellname: this.name,
-      description: this.description,
+      description: this.system.description,
       formula: formula,
       count: dice,
       resultstring: "(" + terms.toString() + ")",
-      total: rollResult.total
+      total: rollResult.total,
+      img: this.img,
+      mishap: mishap,
+      doom: doom
     };
 
     let chatData = {
