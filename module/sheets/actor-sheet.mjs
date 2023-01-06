@@ -108,6 +108,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       let quick = false;
       i.img = i.img || DEFAULT_TOKEN;
 
+      // Let's mangle some useful values
       if (i.type === 'weapon' || i.type === 'equipment' || i.type === 'loot'){
         usedSlots += i.system.slots;
         if (i.system.maxQuantity != 1) {
@@ -120,7 +121,12 @@ export class BoilerplateActorSheet extends ActorSheet {
           usedQuickslots++;
           quicks.push(i);
         }
+        i.action = "-";
+        if (i.type == 'weapon') {
+          i.action = i.system.damage;
+        }
       }
+
       // Append to gear.
       if (i.type === 'weapon' && !quick) {
         weapons.push(i);

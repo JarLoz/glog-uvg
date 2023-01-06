@@ -95,13 +95,13 @@ export class BoilerplateActor extends Actor {
   rollAbility(key) {
     let value = this.system.abilities[key].total;
     let statname = game.i18n.localize(CONFIG.BOILERPLATE.abilities[key]) ?? key;
-    this._showRollDialog(statname, value);
+    this._showRollDialog(statname, value, key, true);
   }
 
   rollStat(key) {
     let value = this.system.primaryStats[key].total;
     let statname = game.i18n.localize(CONFIG.BOILERPLATE.stats[key]) ?? key;
-    this._showRollDialog(statname, value);
+    this._showRollDialog(statname, value, key, false);
   }
 
   rollDD() {
@@ -128,7 +128,13 @@ export class BoilerplateActor extends Actor {
     d.render(true);
   }
 
-  _showRollDialog(statname, value) {
+  _showRollDialog(statname, value, key, ability) {
+    let prevRollMod = 0;
+    if (ability) {
+      prevRollMod = this.system.abilities[key].prevRollMod;
+    } else {
+      prevRollMod = this.system.primaryStats[key].prevRollMod;
+    }
     let d = new Dialog({
       title: `Rolling d20 <= ${statname}!`,
       content: "<div class='dialog grid grid-2-col'>\
@@ -138,7 +144,7 @@ export class BoilerplateActor extends Actor {
       </div>\
       <div class='modifier flex-group-center'>\
       <label for='modifier'>Modifier?</label>\
-      <input id='modifier' name='modifier' type='text' size='3' value='0'></input>\
+      <input id='modifier' name='modifier' type='text' size='3' value='"+prevRollMod+"'></input>\
       </div>\
       </div>\
       ",
@@ -146,7 +152,7 @@ export class BoilerplateActor extends Actor {
         one: {
           icon: '<i class="fas fa-check"></i>',
           label: 'Roll!',
-          callback: (html) => this._rollUnder(value, statname, html.find('[id=\"modifier\"]')[0].value)
+          callback: (html) => this._rollUnder(value, statname, html.find('[id=\"modifier\"]')[0].value, key, ability)
         },
         two: {
           icon: '<i class="fas fa-ban"></i>',
@@ -158,11 +164,21 @@ export class BoilerplateActor extends Actor {
     d.render(true);
   }
 
-  _rollUnder(value, statname, bonus) {
+  _rollUnder(value, statname, bonus, key, ability) {
     let bonusval = parseInt(bonus);
     if (isNaN(bonusval)) {
       bonusval = 0;
     }
+    let update = {};
+    if (ability) {
+      update = {system:{abilities:{}}};
+      update.system.abilities[key] = {prevRollMod:bonusval};
+    } else {
+      update = {system:{primaryStats:{}}};
+      update.system.primaryStats[key] = {prevRollMod:bonusval};
+    }
+    console.log(update);
+    this.update(update);
     let target = value + bonusval;
 
     let targetcalc = false;

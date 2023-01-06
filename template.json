@@ -220,28 +220,12 @@
     "npc": {
       "templates": [
         "hasBasePools",
+        "hasPrimaryStats",
         "hasTraits"
       ],
       "hd": {
         "value": 1,
         "die": "d8"
-      },
-      "primaryStats": {
-        "attack": {
-          "value": 11
-        },
-        "defence": {
-          "value": 10
-        },
-        "save": {
-          "value": 0
-        },
-        "stealth": {
-          "value": 0
-        },
-        "move": {
-          "value": 0
-        }
       },
       "movement": {
         "movement": 30

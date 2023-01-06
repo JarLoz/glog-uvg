@@ -12,5 +12,7 @@
     "systems/glog-uvg/templates/actor/parts/actor-item-row.html",
     "systems/glog-uvg/templates/actor/parts/actor-spells.html",
     "systems/glog-uvg/templates/actor/parts/actor-effects.html",
+    "systems/glog-uvg/templates/actor/parts/actor-npc-items.html",
+    "systems/glog-uvg/templates/actor/parts/actor-npc-item-row.html",
   ]);
 };

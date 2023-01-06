@@ -54,6 +54,7 @@ export class BoilerplateItem extends Item {
 
   _showAttackRollDialog() {
     let target = this.actor.system.primaryStats.attack.total;
+    let prevRollModifier = this.actor.system.primaryStats.attack.prevRollMod;
     let d = new Dialog({
       title: `Attacking with ${this.name}!`,
       content: "<div class='dialog attack-dialog grid grid-2-col'>\
@@ -63,7 +64,7 @@ export class BoilerplateItem extends Item {
       </div>\
       <div class='modifier flex-group-center'>\
       <label for='modifier'>Modifier?</label>\
-      <input id='modifier' name='modifier' type='text' size='3' value='0'></input>\
+      <input id='modifier' name='modifier' type='text' size='3' value='"+prevRollModifier +"'></input>\
       </div>\
       <div class='damage flex-group-center'>\
       <div class='damage-header'>Damage:</div>\
@@ -119,6 +120,10 @@ export class BoilerplateItem extends Item {
     if (isNaN(bonusval)) {
       bonusval = 0;
     }
+    let update = {system:{primaryStats:{attack:{prevRollMod:bonusval}}}};
+    console.log(update);
+    this.actor.update(update);
+
     let target = attack + bonusval;
 
     let targetcalc = false;
@@ -162,7 +167,6 @@ export class BoilerplateItem extends Item {
   }
 
   _showSpellRollDialog() {
-    let target = this.actor.system.primaryStats.attack.total;
     let d = new Dialog({
       title: `Casting ${this.name}!`,
       content: `<div class='dialog casting-dialog grid grid-2-col'>\
