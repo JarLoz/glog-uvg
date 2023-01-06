@@ -51,6 +51,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       this._prepareNpcData(context);
     }
 
+    if (actorData.type == 'caravan') {
+      this._prepareCaravanItems(context);
+    }
+
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
@@ -160,6 +164,38 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.usedSlots = usedSlots;
     context.usedQuickslots = usedQuickslots;
     context.spellSlotsFree = spellSlotsFree;
+  }
+
+  _prepareCaravanItems(context) {
+    const members = [];
+    const items = [];
+    let supplyPerWeekTotal = 0;
+    let fuelPerWeekTotal = 0;
+    let costPerWeekTotal = 0;
+    let capacityTotal = 0;
+    let capacityUsed = 0;
+
+    for (let i of context.items) {
+      if (i.type === 'caravanMember') {
+        supplyPerWeekTotal += i.system.supplyPerWeek;
+        fuelPerWeekTotal += i.system.fuelPerWeek;
+        costPerWeekTotal += i.system.costPerWeek;
+        capacityTotal += i.system.capacity;
+        members.push(i);
+      }
+      else if (i.type === 'caravanItem') {
+        capacityUsed += i.size * i.quantity;
+        items.push(i);
+      }
+    }
+
+    context.members = members;
+    context.items = items;
+    context.supplyPerWeekTotal = supplyPerWeekTotal;
+    context.fuelPerWeekTotal = fuelPerWeekTotal;
+    context.costPerWeekTotal = costPerWeekTotal;
+    context.capacityTotal = capacityTotal;
+    context.capacityLeft = capacityTotal - capacityUsed;
   }
 
   /* -------------------------------------------- */

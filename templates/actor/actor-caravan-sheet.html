@@ -39,7 +39,30 @@
             <input type="text" name="system.speed" value="{{system.speed}}" data-dtype="Number"/>
           </div>
         </div>
-
+        <div class="resource flex-group-center">
+          <label for="system.speed" class="resource-label">Supply/Week</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <span class="header-supply">{{supplyPerWeekTotal}}</span>
+          </div>
+        </div>
+        <div class="resource flex-group-center">
+          <label for="system.speed" class="resource-label">Fuel/Week</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <span class="header-fuel">{{fuelPerWeekTotal}}</span>
+          </div>
+        </div>
+        <div class="resource flex-group-center">
+          <label for="system.speed" class="resource-label">Cost/Week</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <span class="header-cost">{{costPerWeekTotal}}</span>
+          </div>
+        </div>
+        <div class="resource flex-group-center">
+          <label for="system.speed" class="resource-label">Capacity</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <span class="header-capacity">{{capacityLeft}}/{{capacityTotal}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -47,7 +70,8 @@
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="features">Features</a>
+    <a class="item" data-tab="features">Items</a>
+    <a class="item" data-tab="members">Members</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -55,13 +79,13 @@
 
     {{!-- Owned Features Tab --}}
     <div class="tab features" data-group="primary" data-tab="features">
-      <section class="grid grid-3col">
-        <aside class="sidebar">
-        </aside>
-        {{!-- For the main features list, span the right two columns --}}
-        <section class="main grid-span-2">
-        </section>
-      </section>
+      <div class="items">
+      </div>
+    </div>
+    <div class="tab members" data-group="primary" data-tab="members">
+      <div class="members">
+        {{> "systems/glog-uvg/templates/actor/parts/actor-caravan-members.html"}}
+      </div>
     </div>
   </section>
 </form>
