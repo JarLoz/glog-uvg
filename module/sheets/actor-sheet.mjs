@@ -215,40 +215,14 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item) return item.roll();
       } else if (dataset.rollType == 'ability') {
         let key = dataset.rollAbility;
-        let message = dataset.label;
-        //this._rollUnder(key, message);
-        let d = new Dialog({
-          title: `Rolling ${message}`,
-          content: "<div class='dialog grid grid-2-col'>\
-          <div class='bonus flex-group-center'>\
-          <label for='bonusval'>Bonus?</label>\
-          <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
-          </div>\
-          <div class='opposed flex-group-center'>\
-          <label for='opposedval'>Opposed?</label>\
-          <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
-          </div>\
-          </div>\
-          ",
-          buttons: {
-            one: {
-              icon: '<i class="fas fa-check"></i>',
-              label: 'Normal',
-              callback: (html) => this._rollUnder(key, message, html.find('[id=\"bonusval\"]')[0].value)
-            },
-            two: {
-              icon: '<i class="fas fa-swords"></i>',
-              label: 'Opposed',
-              callback: (html) => this._rollOpposed(key, message, html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
-            },
-            three: {
-              icon: '<i class="fas fa-ban"></i>',
-              label: 'Cancel',
-              callback: () => {}
-            }
-          }
-        });
-        d.render(true);
+        let value = this.actor.system.abilities[key].value;
+        let statname = dataset.label;
+        this._showRollDialog(statname, value);
+      } else if (dataset.rollType == 'primarystat') {
+        let key = dataset.rollStat;
+        let value = this.actor.system.primaryStats[key].value;
+        let statname = dataset.label;
+        this._showRollDialog(statname, value);
       }
     }
 
@@ -265,35 +239,72 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
   }
 
-  _rollUnder(key, message, bonus) {
-    let value = this.actor.system.abilities[key].value;
-    let bonusval = parseInt(bonus);
-    let total = value;
-    if (bonusval != NaN) {
-      total = value + bonusval;
-    }
-    let label = message ? `[ability check] ${message}: ${value} + ${bonusval} = ${total}` : '';
-    let roll = new Roll("d20", this.actor.getRollData());
-    roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: label,
-      rollMode: game.settings.get('core', 'rollMode'),
+  _showRollDialog(statname, value) {
+    let d = new Dialog({
+      title: `Rolling ${statname}`,
+      content: "<div class='dialog grid grid-2-col'>\
+      <div class='bonus flex-group-center'>\
+      <label for='bonusval'>Bonus?</label>\
+      <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
+      </div>\
+      <div class='opposed flex-group-center'>\
+      <label for='opposedval'>Opposed?</label>\
+      <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
+      </div>\
+      </div>\
+      ",
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-check"></i>',
+          label: 'Normal',
+          callback: (html) => this._rollUnder(value, statname, html.find('[id=\"bonusval\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Opposed',
+          callback: (html) => this._rollOpposed(value, statname, html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
+        },
+        three: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
     });
-    return roll;
+    d.render(true);
   }
 
-  _rollOpposed(key, message, bonus, opposed) {
-    let value = this.actor.system.abilities[key].value;
+  _rollUnder(value, message, bonus) {
+    let bonusval = parseInt(bonus);
+    let total = value;
+    if (isNaN(bonusval)) {
+      bonusval = 0;
+    }
+    total = value + bonusval;
+    let label = `[ability check] ${message}: ${value}`;
+    if (bonusval != 0) {
+      label += ` + ${bonusval}`;
+    }
+    label += ` = ${total}`;
+    return this._doD20Roll(label);
+  }
+
+  _rollOpposed(value, message, bonus, opposed) {
     let bonusval = parseInt(bonus);
     let opposedval = parseInt(opposed);
     let total = value + 10;
-    if (bonusval != NaN) {
-      total = total + bonusval;
+    if (isNaN(bonusval)) {
+      bonusval = 0;
     }
-    if (opposedval != NaN) {
-      total = total - opposedval;
+    if (isNaN(opposedval)) {
+      opposedval = 0;
     }
+      total = total + bonusval - opposedval;
     let label = message ? `[opposed check] ${message}: (${value} + ${bonusval}) + (10 - ${opposedval}) = ${total}` : '';
+    return this._doD20Roll(label);
+  }
+
+  _doD20Roll(label) {
     let roll = new Roll("d20", this.actor.getRollData());
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
