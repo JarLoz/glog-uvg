@@ -200,9 +200,7 @@ export class BoilerplateActorSheet extends ActorSheet {
         const itemId = element.closest('.item').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) {
-            if (item.type == 'weapon') {
-                this._showAttackRollDialog(item);
-            }
+          item.roll();
         }
       } else if (dataset.rollType == 'ability') {
         let key = dataset.rollAbility;
@@ -265,41 +263,6 @@ export class BoilerplateActorSheet extends ActorSheet {
     d.render(true);
   }
 
-  _showAttackRollDialog(weapon) {
-    let d = new Dialog({
-      title: `Attacking with ${weapon.name}`,
-      content: "<div class='dialog grid grid-2-col'>\
-      <div class='bonus flex-group-center'>\
-      <label for='bonusval'>Bonus?</label>\
-      <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
-      </div>\
-      <div class='opposed flex-group-center'>\
-      <label for='opposedval'>Defence</label>\
-      <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
-      </div>\
-      </div>\
-      ",
-      buttons: {
-        one: {
-          icon: '<i class="fas fa-swords"></i>',
-          label: 'Attack!',
-          callback: (html) => this._rollAttack(weapon, html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
-        },
-        two: {
-          icon: '<i class="fas fa-swords"></i>',
-          label: 'Damage!',
-          callback: (html) => this._rollDamage(weapon)
-        },
-        three: {
-          icon: '<i class="fas fa-ban"></i>',
-          label: 'Cancel',
-          callback: () => {}
-        }
-      }
-    });
-    d.render(true);
-  }
-
   _rollUnder(value, message, bonus) {
     let bonusval = parseInt(bonus);
     let total = value;
@@ -328,43 +291,6 @@ export class BoilerplateActorSheet extends ActorSheet {
       total = total + bonusval - opposedval;
     let label = message ? `[opposed check] ${message}: (${value} + ${bonusval}) + (10 - ${opposedval}) = ${total}` : '';
     return this._doD20Roll(label);
-  }
-
-  _rollAttack(weapon, bonus, defense) {
-    let hitroll = new Roll("d20", this.actor.getRollData());
-    hitroll.evaluate({async: false});
-    let damageroll = new Roll(weapon.system.damage, this.actor.getRollData());
-    damageroll.evaluate({async: false});
-    let opposedData = this._evaluateOpposed(this.actor.system.primaryStats.attack.total, bonus, defense);
-    let hitrollresult = hitroll.total;
-    let success = (hitrollresult <= opposedData.total);
-    let damagerolltotal = damageroll.total;
-
-    let templateData = {
-      weaponname: weapon.name,
-      targetvalue: opposedData.total,
-      targetcalc: opposedData.formula,
-      rollvalue: hitroll.total,
-      damagevalue: damageroll.total,
-      weapondamageroll: weapon.system.damage,
-      success: success
-    };
-
-    let chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: this.actor.id,
-        token: this.actor.token,
-        alias: this.actor.name
-      },
-      sound: CONFIG.sounds.dice
-    };
-
-    let template = "systems/glog-uvg/templates/chat/roll-attack.html";
-    renderTemplate(template, templateData).then(content => {
-      chatData.content = content;
-      ChatMessage.create(chatData);
-    });
   }
 
   _evaluateOpposed(stat, bonus, opposed) {

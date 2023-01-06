@@ -1,3 +1,4 @@
+import {evaluateOpposed} from "../helpers/rollhelpers.mjs";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -33,14 +34,12 @@ export class BoilerplateItem extends Item {
    */
   async roll() {
     const item = this;
-
-    // Initialize chat data.
-    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
-    const label = `[${item.type}] ${item.name}`;
-
-    // If there's no roll data, send a chat message.
-    if (!this.system.formula) {
+    if (this.type == "weapon"){
+      this._showAttackRollDialog();
+    } else {
+      const speaker = ChatMessage.getSpeaker({ actor: this.actor });
+      const rollMode = game.settings.get('core', 'rollMode');
+      const label = `[${item.type}] ${item.name}`;
       ChatMessage.create({
         speaker: speaker,
         rollMode: rollMode,
@@ -48,21 +47,82 @@ export class BoilerplateItem extends Item {
         content: item.system.description ?? ''
       });
     }
-    // Otherwise, create a roll and send a chat message from it.
-    else {
-      // Retrieve roll data.
-      const rollData = this.getRollData();
 
-      // Invoke the roll and submit it to chat.
-      const roll = new Roll(rollData.item.formula, rollData);
-      // If you need to store the value first, uncomment the next line.
-      // let result = await roll.roll({async: true});
-      roll.toMessage({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-      });
-      return roll;
-    }
+  }
+
+  _showAttackRollDialog() {
+    let d = new Dialog({
+      title: `Attacking with ${this.name}`,
+      content: "<div class='dialog grid grid-2-col'>\
+      <div class='bonus flex-group-center'>\
+      <label for='bonusval'>Bonus?</label>\
+      <input id='bonusval' name='bonusval' type='text' size='3' value='0'></input>\
+      </div>\
+      <div class='opposed flex-group-center'>\
+      <label for='opposedval'>Defence</label>\
+      <input id='opposedval' name='opposedval' type='text' size='3' value='10'></input>\
+      </div>\
+      </div>\
+      ",
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Attack!',
+          callback: (html) => this._rollAttack(html.find('[id=\"bonusval\"]')[0].value, html.find('[id=\"opposedval\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-swords"></i>',
+          label: 'Damage!',
+          callback: (html) => this._rollDamage()
+        },
+        three: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
+    });
+    d.render(true);
+  }
+
+  _rollAttack(bonus, defense) {
+    let weapon = this;
+    let hitroll = new Roll("d20", this.actor.getRollData());
+    hitroll.evaluate({async: false});
+    let damageroll = new Roll(weapon.system.damage, this.actor.getRollData());
+    damageroll.evaluate({async: false});
+    let opposedData = evaluateOpposed(this.actor.system.primaryStats.attack.total, bonus, defense);
+    let hitrollresult = hitroll.total;
+    let success = (hitrollresult <= opposedData.total);
+    let damagerolltotal = damageroll.total;
+
+    let templateData = {
+      weaponname: weapon.name,
+      targetvalue: opposedData.total,
+      targetcalc: opposedData.formula,
+      rollvalue: hitroll.total,
+      damagevalue: damageroll.total,
+      weapondamageroll: weapon.system.damage,
+      success: success
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.actor.id,
+        token: this.actor.token,
+        alias: this.actor.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-attack.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
+  _rollDamage() {
   }
 }
