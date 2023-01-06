@@ -1,0 +1,46 @@
+.chat-message {
+    .roll-header {
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+        justify-content:flex-start;
+        align-items:center;
+        img {
+            width: 50px;
+            flex: 0 0 50px;
+            margin-right: 10px;
+        }
+        h2 {
+            flex: 1;
+        }
+    }
+    .targetbox {
+        .target-header {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .target-value {
+            font-size: 2em;
+        }
+        .target-calculation {
+            color: #7b7b7b;
+        }
+    }
+    .resultbox {
+        .result-header {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        .result-value {
+            font-size: 2em;
+        }
+        .result-success {
+            font-size: 2em;
+            color: green;
+        }
+        .result-failure {
+            font-size: 2em;
+            color: red;
+        }
+    }
+}

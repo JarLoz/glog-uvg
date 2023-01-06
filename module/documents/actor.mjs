@@ -146,7 +146,7 @@ export class BoilerplateActor extends Actor {
       </div>\
       <div class='modifier flex-group-center'>\
       <label for='modifier'>Modifier?</label>\
-      <input id='modifier' name='modifier' type='text' size='3' value='"+prevRollMod+"'></input>\
+      <input id='modifier' name='modifier' type='number' value='"+prevRollMod+"'></input>\
       </div>\
       </div>\
       ",
@@ -201,7 +201,8 @@ export class BoilerplateActor extends Actor {
       targetvalue: target,
       targetcalc: targetcalc,
       rollvalue: result,
-      success: success
+      success: success,
+      img: this.img
     };
 
     let chatData = {
