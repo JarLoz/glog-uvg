@@ -184,7 +184,7 @@ export class BoilerplateActorSheet extends ActorSheet {
         members.push(i);
       }
       else if (i.type === 'caravanItem') {
-        capacityUsed += i.size * i.quantity;
+        capacityUsed += i.system.size * i.system.quantity;
         items.push(i);
       }
     }
@@ -268,8 +268,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
 
       item.system.quantity++;
-      if (item.system.quantity > item.system.maxQuantity) {
-        item.system.quantity = item.system.maxQuantity;
+      if (item.type != 'caravanItem') {
+        if (item.system.quantity > item.system.maxQuantity) {
+          item.system.quantity = item.system.maxQuantity;
+        }
       }
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
