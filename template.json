@@ -333,6 +333,7 @@
         "worn",
         "affectsStats"
       ],
+      "damage" : "1d6",
       "weaponType": "melee",
       "proficient": true,
       "properties": {}

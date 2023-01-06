@@ -182,6 +182,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
 
+    html.find('.ddRoll').click(this._ddRoll.bind(this));
+
     // Update Inventory Item
     html.find('.item-quickslot-edit').click(ev => {
       const li = ev.currentTarget.closest(".item");
@@ -298,5 +300,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       });
       return roll;
     }
+  }
+
+  _ddRoll(event) {
+    event.preventDefault();
+    this.actor.rollDD();
   }
 }

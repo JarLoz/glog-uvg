@@ -104,6 +104,30 @@ export class BoilerplateActor extends Actor {
     this._showRollDialog(statname, value);
   }
 
+  rollDD() {
+    let d = new Dialog({
+      title: "Rolling Death and Dismemberment!",
+      content: "<div class='dialog grid grid-2-col'>\
+      <label for='injuries'>Injuries?</label>\
+      <input id='injuries' name='injuries' type='number' size='3' value='0'></input>\
+      </div>\
+      ",
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-check"></i>',
+          label: 'Roll!',
+          callback: (html) => this._rollDnD(html.find('[id=\"injuries\"]')[0].value)
+        },
+        two: {
+          icon: '<i class="fas fa-ban"></i>',
+          label: 'Cancel',
+          callback: () => {}
+        }
+      }
+    });
+    d.render(true);
+  }
+
   _showRollDialog(statname, value) {
     let d = new Dialog({
       title: `Rolling d20 <= ${statname}!`,
@@ -173,6 +197,34 @@ export class BoilerplateActor extends Actor {
     };
 
     let template = "systems/glog-uvg/templates/chat/roll-under.html";
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
+  _rollDnD(injuries) {
+    let formula = "d12 + " + (this.system.hp.value * -1) + " + " + injuries;
+    let roll = new Roll(formula, this.getRollData());
+    roll.evaluate({async: false});
+    let result = roll.total;
+
+    let templateData = {
+      formula: formula,
+      rollvalue: result
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.id,
+        token: this.token,
+        alias: this.name
+      },
+      sound: CONFIG.sounds.dice
+    };
+
+    let template = "systems/glog-uvg/templates/chat/roll-dd.html";
     renderTemplate(template, templateData).then(content => {
       chatData.content = content;
       ChatMessage.create(chatData);
