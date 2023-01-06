@@ -2,7 +2,8 @@
   "Actor": {
     "types": [
       "npc",
-      "character"
+      "character",
+      "caravan"
     ],
     "templates": {
       "hasBasePools": {
@@ -252,6 +253,15 @@
         }
       },
       "morale": 6
+    },
+    "caravan": {
+        "templates" : [],
+        "weeks": 0,
+        "days": 0,
+        "money": 0,
+        "debt": 0,
+        "speed": 0,
+        "notes": "edit me"
     }
   },
   "Item": {
@@ -260,7 +270,9 @@
       "equipment",
       "spell",
       "loot",
-      "feature"
+      "feature",
+      "caravanMember",
+      "caravanItem"
     ],
     "templates": {
       "base": {
@@ -343,6 +355,23 @@
       ],
       "equipped": true,
       "quickslot": false
+    },
+    "caravanMember":{
+      "templates": [
+        "base"
+      ],
+      "supplyPerWeek": 1,
+      "fuelPerWeek": 0,
+      "capacity": 0,
+      "costPerWeek": 0
+    },
+    "caravanItem":{
+      "templates": [
+        "base"
+      ],
+      "size": 1,
+      "quantity": 1,
+      "value": 10
     }
   }
 }
