@@ -1,73 +1,529 @@
 {
   "Actor": {
-    "types": ["character", "npc"],
+    "types": [
+      "npc",
+      "character"
+    ],
     "templates": {
-      "base": {
-        "health": {
+      "hasBasePools": {
+        "hp": {
           "value": 10,
           "min": 0,
-          "max": 10
+          "max": 10,
+          "tempValue": 0,
+          "tempMax": 0
         },
-        "power": {
-          "value": 5,
+        "md": {
+          "value": 0,
           "min": 0,
-          "max": 5
+          "max": 0
+        }
+      },
+      "hasStatRow": {
+        "abilities": {
+          "str": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          },
+          "dex": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          },
+          "con": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          },
+          "int": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          },
+          "wis": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          },
+          "cha": {
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
+          }
+        }
+      },
+      "hasPrimaryStats": {
+        "primaryStats": {
+          "meleeAttack": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "rangeAttack": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "def": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "save": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "sth": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "mv": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          }
         },
-        "biography": ""
+        "stats": {
+          "meleeAttack": {
+            "value": 0
+          },
+          "rangeAttack": {
+            "value": 0
+          },
+          "sth": {
+            "value": 0
+          },
+          "doc": {
+            "value": 0
+          },
+          "mv": {
+            "value": 0
+          },
+          "invQuick": {
+            "value": 0
+          },
+          "invSlow": {
+            "value": 0
+          },
+          "er": {
+            "value": 0
+          },
+          "meleeDamage": {
+            "value": 0
+          },
+          "meleeCritRange": {
+            "value": 1
+          },
+          "meleeFumbleRange": {
+            "value": 0
+          },
+          "rangeDamage": {
+            "value": 0
+          },
+          "rangeCritRange": {
+            "value": 1
+          },
+          "rangeFumbleRange": {
+            "value": 0
+          },
+          "rangeDistanceMod": {
+            "value": 0
+          },
+          "rangeDecayMod": {
+            "value": 0
+          },
+          "fatigueMod": {
+            "value": 0
+          },
+          "initMod": {
+            "value": 0
+          }
+        },
+        "aux": {
+          "fatigue": {
+            "value": 0,
+            "mod": 0
+          },
+          "movement": {
+            "value": 0
+          },
+          "run": {
+            "value": 0
+          },
+          "bslots": {
+            "value": 0
+          }
+        }
+      },
+      "hasInventory": {
+        "slots": {
+          "slow": {
+            "max": 0.0,
+            "value": 0.0
+          },
+          "quick": {
+            "max": 0.0,
+            "value": 0.0
+          }
+        }
+      },
+      "hasTraits": {
+        "traits": {
+          "size": "med",
+          "di": {
+            "value": [],
+            "custom": ""
+          },
+          "dr": {
+            "value": [],
+            "custom": ""
+          },
+          "dv": {
+            "value": [],
+            "custom": ""
+          },
+          "ci": {
+            "value": [],
+            "custom": ""
+          },
+          "languages": {
+            "value": [],
+            "custom": ""
+          }
+        }
       }
     },
     "character": {
-      "templates": ["base"],
+      "templates": [
+        "hasBasePools",
+        "hasPrimaryStats",
+        "hasStatRow",
+        "hasInventory",
+        "hasTraits"
+      ],
+      "biography": "edit me!",
+      "level": 1,
+      "xp": 0,
       "attributes": {
-        "level": {
-          "value": 1
+        "fatigue": {
+          "value": 0
         }
       },
-      "abilities": {
-        "str": {
-          "value": 10
+      "resources": {
+        "primary": {
+          "value": 0,
+          "max": 0,
+          "title": "Magic Dice",
+          "lr": 0,
+          "sr": 0
         },
-        "dex": {
-          "value": 10
+        "secondary": {
+          "value": 0,
+          "max": 0,
+          "title": "Spells",
+          "lr": 0,
+          "sr": 0
         },
-        "con": {
-          "value": 10
+        "tertiary": {
+          "value": 0,
+          "max": 0,
+          "title": "Spell Slots",
+          "lr": 0,
+          "sr": 0
         },
-        "int": {
-          "value": 10
+        "extra1": {
+          "value": 0,
+          "max": 0,
+          "title": "Resource 4",
+          "lr": 0,
+          "sr": 0
         },
-        "wis": {
-          "value": 10
+        "extra2": {
+          "value": 0,
+          "max": 0,
+          "title": "Resource 5",
+          "lr": 0,
+          "sr": 0
         },
-        "cha": {
-          "value": 10
+        "extra3": {
+          "value": 0,
+          "max": 0,
+          "title": "Resource 6",
+          "lr": 0,
+          "sr": 0
         }
       }
     },
     "npc": {
-      "templates": ["base"],
-      "cr": 0
+      "templates": [
+        "hasStatRow",
+        "hasBasePools",
+        "hasTraits"
+      ],
+      "details": {
+        "cr": {
+          "level": 1,
+          "hd": "1d8"
+        },
+        "xp": {
+          "value": 0
+        },
+        "source": ""
+      },
+      "primaryStats": {
+        "meleeAttack": {
+          "value": 0
+        },
+        "rangeAttack": {
+          "value": 0
+        },
+        "def": {
+          "value": 0
+        },
+        "save": {
+          "value": 0
+        },
+        "sth": {
+          "value": 0
+        },
+        "mv": {
+          "value": 0
+        }
+      },
+      "auxiliaryStats": {
+        "meleeCritRange": {
+          "value": 1
+        },
+        "rangeCritRange": {
+          "value": 1
+        },
+        "rangeDistanceMod": {
+          "value": 0
+        },
+        "rangeDecayMod": {
+          "value": 1
+        },
+        "meleeFumbleRange": {
+          "value": 0
+        },
+        "rangeFumbleRange": {
+          "value": 0
+        }
+      },
+      "movement": {
+        "movement": 30
+      },
+      "hasTraits": {
+        "npc": {
+          "value": [],
+          "custom": ""
+        }
+      },
+      "morale": 6
     }
   },
   "Item": {
-    "types": ["item", "feature", "spell"],
+    "types": [
+      "weapon",
+      "equipment",
+      "archetype",
+      "feat",
+      "spell",
+      "loot",
+      "consumable",
+      "effect",
+      "race"
+    ],
     "templates": {
       "base": {
-        "description": ""
+        "description": "edit me",
+        "ownedByPC": false
+      },
+      "itemDescription": {
+        "description": {
+          "value": "",
+          "chat": ""
+        },
+        "source": ""
+      },
+      "hasWeight": {
+        "quantity": 1,
+        "slots": 0.5,
+        "location": "slow"
+      },
+      "hasCost": {
+        "cost": ""
+      },
+      "worn": {
+        "equipped": false,
+        "quickslot": false
+      },
+      "activatedEffect": {
+        "activation": {
+          "type": "",
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "diceOp": "",
+          "diceType": "",
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "diceOp": "",
+          "diceType": "",
+          "units": ""
+        },
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "per": null
+        },
+        "consume": {
+          "type": "",
+          "amount": null,
+          "details": ""
+        }
+      },
+      "affectsStats": {
+        "statMods": {
+          "applied": true,
+          "globally": true,
+          "parts": []
+        }
+      },
+      "action": {
+        "ability": null,
+        "actionType": null,
+        "damage": "",
+        "damageType": "",
+        "formula": "",
+        "formulaDamageType": "",
+        "casting": "",
+        "secondaryCasting": "",
+        "secondaryAttackAction": null,
+        "secondaryAbility": null
       }
     },
-    "item": {
-      "templates": ["base"],
-      "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+    "weapon": {
+      "templates": [
+        "base",
+        "hasWeight",
+        "hasCost",
+        "activatedEffect",
+        "action",
+        "worn",
+        "itemDescription",
+        "affectsStats"
+      ],
+      "weaponType": "melee",
+      "proficient": true,
+      "properties": {}
     },
-    "feature": {
-      "templates": ["base"]
+    "equipment": {
+      "templates": [
+        "base",
+        "hasWeight",
+        "hasCost",
+        "activatedEffect",
+        "action",
+        "worn",
+        "itemDescription",
+        "affectsStats"
+      ],
+      "type": "none",
+      "properties": {}
+    },
+    "archetype": {
+      "templates": [
+        "base",
+        "itemDescription"
+      ],
+      "tier": "A"
     },
     "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
+      "templates": [
+        "base",
+        "itemDescription",
+        "activatedEffect",
+        "action",
+        "affectsStats"
+      ],
+      "type": "cantrip",
+      "level": "oneSix",
+      "equipped": true
+    },
+    "feat": {
+      "templates": [
+        "base",
+        "activatedEffect",
+        "action",
+        "itemDescription",
+        "affectsStats"
+      ],
+      "skillorrace": "skill",
+      "tier": "A",
+      "equipped": true
+    },
+    "race": {
+      "templates": [
+        "base",
+        "itemDescription",
+        "action",
+        "activatedEffect",
+        "affectsStats"
+      ]
+    },
+    "consumable": {
+      "templates": [
+        "base",
+        "hasWeight",
+        "hasCost",
+        "activatedEffect",
+        "action",
+        "itemDescription",
+        "affectsStats",
+        "worn"
+      ],
+      "consumableType": "light"
+    },
+    "loot": {
+      "templates": [
+        "base",
+        "hasWeight",
+        "hasCost",
+        "itemDescription"
+      ],
+      "equipped": true,
+      "quickslot": false
+    },
+    "effect": {
+      "templates": [
+        "base, itemDescription"
+      ],
+      "mod": {
+        "stat": "str",
+        "type": "auto",
+        "value": 0,
+        "source": "",
+        "equipped": true,
+        "applied": true
+      }
     }
   }
 }
