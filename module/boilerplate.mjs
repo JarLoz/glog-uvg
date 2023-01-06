@@ -88,13 +88,20 @@ Hooks.once("ready", async function() {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-async function createItemMacro(data, slot) {
+function createItemMacro(data, slot) {
   // First, determine if this is a valid owned item.
-  if (data.type !== "Item") return;
+  if (data.type !== "Item"){
+    console.log("Not an item! It's a " + data.type);
+    return;
+  }
   if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
     return ui.notifications.warn("You can only create macro buttons for owned Items");
   }
-  // If it is, retrieve it based on the uuid.
+  _assignItemMacro(data, slot);
+  return false;
+}
+
+async function _assignItemMacro(data, slot) {
   const item = await Item.fromDropData(data);
 
   // Create the macro command using the uuid.
@@ -110,7 +117,6 @@ async function createItemMacro(data, slot) {
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  return false;
 }
 
 /**
