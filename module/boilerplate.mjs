@@ -6,6 +6,7 @@ import { BoilerplateActorSheet } from "./sheets/actor-sheet.mjs";
 import { BoilerplateItemSheet } from "./sheets/item-sheet.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
+import { postNPCTokenCreate } from "./helpers/rollhelpers.mjs";
 import { BOILERPLATE } from "./helpers/config.mjs";
 
 /* -------------------------------------------- */
@@ -135,3 +136,14 @@ function rollItemMacro(itemUuid) {
     item.roll();
   });
 }
+
+// Rolling some hit dice yo yo yo
+Hooks.on("createToken", async function (token, options, id) {
+  if (!game.user.isGM) return;
+  if (token.actor.type === 'npc') {
+    postNPCTokenCreate(token);
+    //utilitiesManager.postNPCTokenCreate(token);
+  }
+  // debug.log("Hooks:createToken END", { token });
+
+});

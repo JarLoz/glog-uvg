@@ -226,7 +226,8 @@
       ],
       "hd": {
         "value": 1,
-        "die": "d8"
+        "die": "d8",
+        "autoroll": false
       },
       "movement": {
         "movement": 30
