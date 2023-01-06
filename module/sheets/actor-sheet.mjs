@@ -113,9 +113,11 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
       // Append to spells.
       else if (i.type === 'spell') {
+          /*
         if (i.system.spellLevel != undefined) {
           spells[i.system.spellLevel].push(i);
         }
+              */
       }
     }
 

@@ -274,13 +274,9 @@
     "types": [
       "weapon",
       "equipment",
-      "archetype",
-      "feat",
       "spell",
       "loot",
-      "consumable",
-      "effect",
-      "race"
+      "feature"
     ],
     "templates": {
       "base": {
@@ -306,46 +302,6 @@
         "equipped": false,
         "quickslot": false
       },
-      "activatedEffect": {
-        "activation": {
-          "type": "",
-          "condition": ""
-        },
-        "duration": {
-          "value": null,
-          "diceOp": "",
-          "diceType": "",
-          "units": ""
-        },
-        "target": {
-          "value": null,
-          "units": "",
-          "type": ""
-        },
-        "range": {
-          "value": null,
-          "diceOp": "",
-          "diceType": "",
-          "units": ""
-        },
-        "uses": {
-          "value": 0,
-          "max": 0,
-          "per": null
-        },
-        "consume": {
-          "type": "",
-          "amount": null,
-          "details": ""
-        }
-      },
-      "affectsStats": {
-        "statMods": {
-          "applied": true,
-          "globally": true,
-          "parts": []
-        }
-      },
       "action": {
         "ability": null,
         "actionType": null,
@@ -364,7 +320,6 @@
         "base",
         "hasWeight",
         "hasCost",
-        "activatedEffect",
         "action",
         "worn",
         "itemDescription",
@@ -379,7 +334,6 @@
         "base",
         "hasWeight",
         "hasCost",
-        "activatedEffect",
         "action",
         "worn",
         "itemDescription",
@@ -387,13 +341,6 @@
       ],
       "type": "none",
       "properties": {}
-    },
-    "archetype": {
-      "templates": [
-        "base",
-        "itemDescription"
-      ],
-      "tier": "A"
     },
     "spell": {
       "templates": [
@@ -407,39 +354,12 @@
       "level": "oneSix",
       "equipped": true
     },
-    "feat": {
-      "templates": [
-        "base",
-        "activatedEffect",
-        "action",
-        "itemDescription",
-        "affectsStats"
-      ],
-      "skillorrace": "skill",
-      "tier": "A",
-      "equipped": true
-    },
-    "race": {
+    "feature": {
       "templates": [
         "base",
         "itemDescription",
-        "action",
-        "activatedEffect",
         "affectsStats"
       ]
-    },
-    "consumable": {
-      "templates": [
-        "base",
-        "hasWeight",
-        "hasCost",
-        "activatedEffect",
-        "action",
-        "itemDescription",
-        "affectsStats",
-        "worn"
-      ],
-      "consumableType": "light"
     },
     "loot": {
       "templates": [
@@ -450,19 +370,6 @@
       ],
       "equipped": true,
       "quickslot": false
-    },
-    "effect": {
-      "templates": [
-        "base, itemDescription"
-      ],
-      "mod": {
-        "stat": "str",
-        "type": "auto",
-        "value": 0,
-        "source": "",
-        "equipped": true,
-        "applied": true
-      }
     }
   }
 }
