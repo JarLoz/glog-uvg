@@ -34,16 +34,25 @@
         .result-value {
             font-size: 2em;
         }
-        .result-success {
+        .result-reload {
+            font-size: 1.2em;
+            color: red;
+        }
+    }
+    .successbox {
+        .success-success {
             font-size: 2em;
             color: green;
         }
-        .result-failure {
+        .success-failure {
             font-size: 2em;
             color: red;
         }
     }
     .damagebox {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px 0px 0px 0px;
         .damage-header {
             font-size: 1.3em;
             font-weight: bold;

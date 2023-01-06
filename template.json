@@ -303,6 +303,7 @@
       ],
       "damage" : "1d6",
       "weaponType": "melee",
+      "reload": 0,
       "proficient": true,
       "properties": {}
     },

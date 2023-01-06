@@ -57,7 +57,7 @@ export class BoilerplateItem extends Item {
     let prevRollModifier = this.actor.system.primaryStats.attack.prevRollMod;
     let d = new Dialog({
       title: `Attacking with ${this.name}!`,
-      content: "<div class='dialog attack-dialog grid grid-2-col'>\
+      content: "<div class='dialog attack-dialog grid grid-3col'>\
       <div class='target flex-group-center'>\
       <div class='target-header'>Target:</div>\
       <div class='target-value'>" + target + "</div>\
@@ -65,6 +65,10 @@ export class BoilerplateItem extends Item {
       <div class='modifier flex-group-center'>\
       <label for='modifier'>Modifier?</label>\
       <input id='modifier' name='modifier' type='number' value='"+prevRollModifier +"'></input>\
+      </div>\
+      <div class='reload flex-group-center'>\
+      <div class='reload-header'>Reload</div>\
+      <div class='reload-header'>" + this.system.reload + "</div>\
       </div>\
       <div class='damage flex-group-center'>\
       <div class='damage-header'>Damage:</div>\
@@ -135,6 +139,11 @@ export class BoilerplateItem extends Item {
 
     let success = (hitrollresult <= target);
 
+    let reloadrequired = false;
+    if (this.system.reload > 0) {
+      reloadrequired = (hitrollresult >= this.system.reload)
+    }
+
     let templateData = {
       weaponname: weapon.name,
       targetvalue: target,
@@ -143,7 +152,9 @@ export class BoilerplateItem extends Item {
       damagevalue: damagerollresult,
       weapondamageroll: damageformula,
       success: success,
-      img: weapon.img
+      img: weapon.img,
+      reloadrequired: reloadrequired,
+      reload : this.system.reload,
     };
 
     let chatData = {

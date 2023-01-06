@@ -1,24 +1,33 @@
 <div class="roll-header">
   <img src={{img}} width="50" height="50"/>
-  <h2>Attacking with {{weaponname}}!</h2>
+  <h2>{{weaponname}}</h2>
 </div>
 <div class="attack-roll">
-  <div class="targetbox flex-group-center">
-    <div class="target-header">Target:</div>
-    <div class="target-value">{{targetvalue}}</div>
-    {{#if targetcalc}}<div class="target-calculation">{{targetcalc}}</div>{{/if}}
+  <div class="rollbox grid grid-2col">
+    <div class="targetbox flex-group-center">
+      <div class="target-header">Target:</div>
+      <div class="target-value">{{targetvalue}}</div>
+      {{#if targetcalc}}<div class="target-calculation">{{targetcalc}}</div>{{/if}}
+    </div>
+    <div class="resultbox flex-group-center">
+      <div class="result-header">Roll (d20):</div>
+      <div class="result-value">{{rollvalue}}</div>
+      {{#if reloadrequired}}
+      <div class="result-reload">Reload!</div>
+      {{/if}}
+    </div>
   </div>
-  <div class="resultbox flex-group-center">
-    <div class="result-header">Roll (d20):</div>
-    <div class="result-value">{{rollvalue}}</div>
+  <div class="successbox flex-group-center">
     {{#if success}}
-    <div class="result-success">SUCCESS!</div>
+    <span class="success-success">HIT!</span>
     {{else}}
-    <div class="result-failure">FAILURE!</div>
+    <span class="success-failure">MISS!</span>
     {{/if}}
   </div>
+  {{#if success}}
   <div class="damagebox flex-group-center">
     <div class="damage-header">Damage ({{weapondamageroll}}):</div>
     <div class="damage-value">{{damagevalue}}</div>
   </div>
+  {{/if}}
 </div>

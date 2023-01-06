@@ -3,18 +3,22 @@
   <h2>{{statname}} Check!</h2>
 </div>
 <div class="under-roll">
-  <div class="targetbox flex-group-center">
-    <div class="target-header">Target:</div>
-    <div class="target-value">{{targetvalue}}</div>
-    {{#if targetcalc}}<div class="target-calculation">{{targetcalc}}</div>{{/if}}
+  <div class="rollbox grid grid-2col">
+    <div class="targetbox flex-group-center">
+      <div class="target-header">Target:</div>
+      <div class="target-value">{{targetvalue}}</div>
+      {{#if targetcalc}}<div class="target-calculation">{{targetcalc}}</div>{{/if}}
+    </div>
+    <div class="resultbox flex-group-center">
+      <div class="result-header">Roll (d20):</div>
+      <div class="result-value">{{rollvalue}}</div>
+    </div>
   </div>
-  <div class="resultbox flex-group-center">
-    <div class="result-header">Roll (d20):</div>
-    <div class="result-value">{{rollvalue}}</div>
+  <div class="successbox flex-group-center">
     {{#if success}}
-    <div class="result-success">SUCCESS!</div>
+    <div class="success-success">SUCCESS!</div>
     {{else}}
-    <div class="result-failure">FAILURE!</div>
+    <div class="success-failure">FAILURE!</div>
     {{/if}}
   </div>
 </div>
