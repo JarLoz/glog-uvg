@@ -3,7 +3,7 @@
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-      <div class="grid grid-2col">
+      <div class="grid grid-3col">
         <div class="resource">
           <label class="resource-label">Quantity</label>
           <input type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number"/>
@@ -33,8 +33,9 @@
 
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
-      {{!-- As you add new fields, add them in here! --}}
-      <div class="resource">
+      <div class="grid grid-2col">
+        <label class="resource-label">Max Quantity</label>
+        <input type="text" name="system.maxQuantity" value="{{system.maxQuantity}}" data-dtype="Number"/>
         <label class="resource-label">Type</label>
         <select name="system.weaponType" value="{{system.weaponType}}" data-dtype="String">
           {{#each typeselect as | selected |}}
@@ -45,10 +46,9 @@
           {{/if}}
           {{/each}}
         </select>
-      </div>
-      <div class="resource">
         <label class="resource-label">Damage Formula</label>
         <input type="text" name="system.damage" value="{{system.damage}}" data-dtype="String"/>
+        {{!-- As you add new fields, add them in here! --}}
       </div>
     </div>
   </section>

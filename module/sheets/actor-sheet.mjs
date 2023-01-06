@@ -85,16 +85,38 @@ export class BoilerplateActorSheet extends ActorSheet {
    */
   _prepareItems(context) {
     // Initialize containers.
-    const gear = [];
+    const weapons = [];
+    const equipment = [];
+    const loot = [];
     const features = [];
     const spells = [];
+    let usedSlots = 0;
+    let usedQuickslots = 0;
 
     // Iterate through items, allocating to containers
     for (let i of context.items) {
       i.img = i.img || DEFAULT_TOKEN;
+
+      if (i.type === 'weapon' || i.type === 'equipment' || i.type === 'loot'){
+        usedSlots += i.system.slots;
+        if (i.system.maxQuantity != 1) {
+          i.hasQuantity = true;
+        } else {
+          i.hasQuantity = false;
+        }
+        if (i.system.quickslot === true) {
+          usedQuickslots++;
+        }
+      }
       // Append to gear.
       if (i.type === 'weapon') {
-        gear.push(i);
+        weapons.push(i);
+      }
+      if (i.type === 'equipment') {
+        equipment.push(i);
+      }
+      if (i.type === 'loot') {
+        loot.push(i);
       }
       // Append to features.
       else if (i.type === 'feature') {
@@ -107,9 +129,13 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
 
     // Assign and return
-    context.gear = gear;
+    context.weapons = weapons;
+    context.equipment = equipment;
+    context.loot = loot;
     context.features = features;
     context.spells = spells;
+    context.usedSlots = usedSlots;
+    context.usedQuickslots = usedQuickslots;
   }
 
   /* -------------------------------------------- */
@@ -145,6 +171,37 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
+
+    // Update Inventory Item
+    html.find('.item-quickslot-edit').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.quickslot = !item.system.quickslot;
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
+    html.find('.item-remove-quantity').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.quantity--;
+      if (item.system.quantity < 0) {
+        item.system.quantity = 0;
+      }
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
+    html.find('.item-add-quantity').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.quantity++;
+      if (item.system.quantity > item.system.maxQuantity) {
+        item.system.quantity = item.system.maxQuantity;
+      }
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
 
     // Drag events for macros.
     if (this.actor.isOwner) {

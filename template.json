@@ -22,39 +22,45 @@
       "hasStatRow": {
         "abilities": {
           "str": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           },
           "dex": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           },
           "con": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           },
           "int": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           },
           "wis": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           },
           "cha": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
             "total": 0,
+            "prevRollMod": 0,
             "bonus": 0
           }
         }
@@ -62,28 +68,33 @@
       "hasPrimaryStats": {
         "primaryStats": {
           "attack": {
-            "value": 0,
+            "value": 11,
             "mod": 0,
+            "prevRollMod": 0,
             "total": 0
           },
           "defence": {
-            "value": 0,
+            "value": 10,
             "mod": 0,
+            "prevRollMod": 0,
             "total": 0
           },
           "save": {
-            "value": 0,
+            "value": 6,
             "mod": 0,
+            "prevRollMod": 0,
             "total": 0
           },
           "stealth": {
-            "value": 0,
+            "value": 5,
             "mod": 0,
+            "prevRollMod": 0,
             "total": 0
           },
           "move": {
-            "value": 0,
+            "value": 12,
             "mod": 0,
+            "prevRollMod": 0,
             "total": 0
           }
         },
@@ -152,6 +163,8 @@
       "biography": "edit me!",
       "level": 1,
       "xp": 0,
+      "meleeCritRange": 1,
+      "rangedCritRange": 1,
       "attributes": {
         "fatigue": {
           "value": 0
@@ -283,16 +296,10 @@
         "description": "edit me",
         "ownedByPC": false
       },
-      "itemDescription": {
-        "description": {
-          "value": "",
-          "chat": ""
-        },
-        "source": ""
-      },
       "hasWeight": {
         "quantity": 1,
-        "slots": 0.5,
+        "maxQuantity": 1,
+        "slots": 1,
         "location": "slow"
       },
       "hasCost": {
@@ -312,6 +319,7 @@
         "casting": "",
         "secondaryCasting": "",
         "secondaryAttackAction": null,
+        "prevRollMod": 0,
         "secondaryAbility": null
       }
     },
@@ -335,7 +343,6 @@
         "hasCost",
         "action",
         "worn",
-        "itemDescription",
         "affectsStats"
       ],
       "type": "none",
@@ -344,13 +351,10 @@
     "spell": {
       "templates": [
         "base",
-        "itemDescription",
-        "activatedEffect",
         "action",
         "affectsStats"
       ],
       "type": "cantrip",
-      "level": "oneSix",
       "equipped": true
     },
     "feature": {
@@ -363,8 +367,7 @@
       "templates": [
         "base",
         "hasWeight",
-        "hasCost",
-        "itemDescription"
+        "hasCost"
       ],
       "equipped": true,
       "quickslot": false
