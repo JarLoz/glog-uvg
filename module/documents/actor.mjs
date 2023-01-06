@@ -130,6 +130,26 @@ export class BoilerplateActor extends Actor {
     d.render(true);
   }
 
+  async rollHitDice() {
+    if (this.type != 'npc') {
+      console.log("This ain't an NPC yo!");
+      return;
+    }
+    const hitdice = String(this.system.hd.value);
+    const hitdicerest = String(this.system.hd.die);
+    let formula = hitdice + hitdicerest
+
+    const roll = new Roll(formula).roll({ async: false });
+    let hp = roll.total;
+    hp = Math.max(hp, 1);
+
+    const actorUpdates = {
+        "system.hp.value": hp,
+        "system.hp.max": hp,
+    };
+    await this.update(actorUpdates);
+  }
+
   _showRollDialog(statname, value, key, ability) {
     let prevRollMod = 0;
     if (ability) {
@@ -179,7 +199,6 @@ export class BoilerplateActor extends Actor {
       update = {system:{primaryStats:{}}};
       update.system.primaryStats[key] = {prevRollMod:bonusval};
     }
-    console.log(update);
     this.update(update);
     let target = value + bonusval;
 

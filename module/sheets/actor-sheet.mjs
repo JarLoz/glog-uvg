@@ -276,6 +276,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 
+    html.find('a.hitpointroll').click(ev => {
+      this.actor.rollHitDice();
+    });
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
