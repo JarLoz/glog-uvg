@@ -76,7 +76,9 @@ export class BoilerplateActor extends Actor {
 
     // Make modifications to data here. For example:
     const systemData = actorData.system;
-    systemData.xp = (systemData.cr * systemData.cr) * 100;
+    for (let [key, stat] of Object.entries(systemData.primaryStats)) {
+      stat.total = stat.value + stat.mod;
+    }
   }
 
   /**
