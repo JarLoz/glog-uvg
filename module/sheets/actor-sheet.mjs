@@ -13,7 +13,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       template: "systems/glog-uvg/templates/actor/actor-sheet.html",
       width: 600,
       height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
+      tabs: [
+        { navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "basic" },
+        { navSelector: ".features-tabs", contentSelector: ".features-body", initial: "features" }
+      ]
     });
   }
 
@@ -79,6 +82,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     for (let [k, v] of Object.entries(context.system.primaryStats)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
     }
+    const fatalWounds = context.system.fatalWounds;
+    context.fatalCount = fatalWounds[0] + fatalWounds[1] + fatalWounds[2] + fatalWounds[3];
   }
 
   _prepareNpcData(context) {
@@ -102,6 +107,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     const equipment = [];
     const loot = [];
     const features = [];
+    const injuries = [];
     const spells = [];
     let usedSlots = 0;
     let usedQuickslots = 0;
@@ -145,6 +151,9 @@ export class BoilerplateActorSheet extends ActorSheet {
       else if (i.type === 'feature') {
         features.push(i);
       }
+      else if (i.type === 'injury') {
+        injuries.push(i);
+      }
       // Append to spells.
       else if (i.type === 'spell') {
         if (i.system.equipped) {
@@ -160,6 +169,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.equipment = equipment;
     context.loot = loot;
     context.features = features;
+    context.injuries = injuries;
     context.spells = spells;
     context.usedSlots = usedSlots;
     context.usedQuickslots = usedQuickslots;
@@ -273,6 +283,25 @@ export class BoilerplateActorSheet extends ActorSheet {
           item.system.quantity = item.system.maxQuantity;
         }
       }
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
+    html.find('.item-remove-duration').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.duration--;
+      if (item.system.duration < 0) {
+        item.system.duration = 0;
+      }
+      this.actor.updateEmbeddedDocuments('Item', [item]);
+    });
+
+    html.find('.item-add-duration').click(ev => {
+      const li = ev.currentTarget.closest(".item");
+      const item = duplicate(this.actor.getEmbeddedDocument("Item", li.dataset.itemId))
+
+      item.system.duration++;
       this.actor.updateEmbeddedDocuments('Item', [item]);
     });
 

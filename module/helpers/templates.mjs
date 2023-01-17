@@ -9,6 +9,7 @@
     // Actor partials.
     "systems/glog-uvg/templates/actor/parts/actor-features.html",
     "systems/glog-uvg/templates/actor/parts/actor-items.html",
+    "systems/glog-uvg/templates/actor/parts/actor-injuries.html",
     "systems/glog-uvg/templates/actor/parts/actor-item-row.html",
     "systems/glog-uvg/templates/actor/parts/actor-spells.html",
     "systems/glog-uvg/templates/actor/parts/actor-effects.html",

@@ -167,7 +167,7 @@
       "xp": 0,
       "meleeCritRange": 1,
       "rangedCritRange": 1,
-      "fatalWounds" : 0,
+      "fatalWounds" : [0,0,0,0],
       "attributes": {
         "fatigue": {
           "value": 0
@@ -257,6 +257,7 @@
       "spell",
       "loot",
       "feature",
+      "injury",
       "caravanMember",
       "caravanItem"
     ],
@@ -329,6 +330,13 @@
       "equipped": false
     },
     "feature": {
+      "templates": [
+        "base",
+        "affectsStats"
+      ]
+    },
+    "injury": {
+      "duration": 0,
       "templates": [
         "base",
         "affectsStats"
