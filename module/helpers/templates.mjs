@@ -17,5 +17,6 @@
     "systems/glog-uvg/templates/actor/parts/actor-npc-item-row.html",
     "systems/glog-uvg/templates/actor/parts/actor-caravan-members.html",
     "systems/glog-uvg/templates/actor/parts/actor-caravan-items.html",
+    "systems/glog-uvg/templates/actor/parts/actor-character-wounds.html",
   ]);
 };

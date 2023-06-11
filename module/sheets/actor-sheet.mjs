@@ -309,6 +309,19 @@ export class BoilerplateActorSheet extends ActorSheet {
       this.actor.rollHitDice();
     });
 
+    html.find('.fatalwound-action-roll').click(ev => {
+      this.actor.rollDD();
+    });
+    html.find('.fatalwound-action-add').click(ev => {
+      this.actor.addFatalWound();
+    });
+    html.find('.fatalwound-action-remove').click(ev => {
+      this.actor.removeFatalWound();
+    });
+    html.find('.fatalwound-action-tick').click(ev => {
+      this.actor.tickFatalWound();
+    });
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);

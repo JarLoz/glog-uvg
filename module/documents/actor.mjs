@@ -131,6 +131,106 @@ export class BoilerplateActor extends Actor {
     d.render(true);
   }
 
+  async addFatalWound() {
+    let fatalWounds = this.system.fatalWounds;
+    fatalWounds[3] = fatalWounds[3] + 1;
+    let actorUpdate = {
+      "system.fatalWounds": fatalWounds
+    };
+    await this.update(actorUpdate);
+    let template = "systems/glog-uvg/templates/chat/add-wound.html";
+    let templateData = {
+      fatalWounds: fatalWounds,
+      img: this.img
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.id,
+        token: this.token,
+        alias: this.name
+      },
+      sound: CONFIG.sounds.notification
+    };
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
+  async removeFatalWound() {
+    let fatalWounds = this.system.fatalWounds;
+    fatalWounds.every((val, index) => {
+      if (val > 0) {
+        fatalWounds[index] = val - 1;
+        return false;
+      }
+      return true;
+    });
+    let actorUpdate = {
+      "system.fatalWounds": fatalWounds
+    };
+    await this.update(actorUpdate);
+    let template = "systems/glog-uvg/templates/chat/remove-wound.html";
+    let templateData = {
+      fatalWounds: fatalWounds,
+      img: this.img
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.id,
+        token: this.token,
+        alias: this.name
+      },
+      sound: CONFIG.sounds.notification
+    };
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
+  async tickFatalWound() {
+    let fatalWounds = this.system.fatalWounds;
+    fatalWounds.every((val, index) => {
+      if (index == 0) {
+        fatalWounds[index] = fatalWounds[index] + fatalWounds[index+1];
+      } else if (index < 3) {
+        fatalWounds[index] = fatalWounds[index+1];
+      } else {
+        fatalWounds[index] = 0;
+      }
+      return true;
+    });
+    console.log("YOOO FUCK!");
+    let actorUpdate = {
+      "system.fatalWounds": fatalWounds
+    };
+    await this.update(actorUpdate);
+    let template = "systems/glog-uvg/templates/chat/tick-wound.html";
+    let templateData = {
+      fatalWounds: fatalWounds,
+      img: this.img
+    };
+
+    let chatData = {
+      user: game.user.id,
+      speaker: {
+        actor: this.id,
+        token: this.token,
+        alias: this.name
+      },
+      sound: CONFIG.sounds.notification
+    };
+    renderTemplate(template, templateData).then(content => {
+      chatData.content = content;
+      ChatMessage.create(chatData);
+    });
+  }
+
   async rollHitDice() {
     if (this.type != 'npc') {
       console.log("This ain't an NPC yo!");
