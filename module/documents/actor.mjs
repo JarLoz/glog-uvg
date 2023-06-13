@@ -106,19 +106,30 @@ export class BoilerplateActor extends Actor {
     this._showRollDialog(statname, value, key, false);
   }
 
-  rollDD() {
+  async rollDD() {
     let d = new Dialog({
       title: "Rolling Death and Dismemberment!",
       content: "<div class='dialog grid grid-2-col'>\
-      <label for='injuries'>Injuries?</label>\
-      <input id='injuries' name='injuries' type='number' size='3' value='0'></input>\
+      <label for='location'>Location?</label>\
+      <select id='location' name='location'>\
+        <option value='random' selected='selected'>Random</option>\
+        <option value='arm'>Arm</option>\
+        <option value='leg'>Leg</option>\
+        <option value='torso'>Torso</option>\
+        <option value='head'>Head</option>\
+        <option value='fire'>Acid, Fire</option>\
+        <option value='ice'>Cold, Ice</option>\
+        <option value='lightning'>Lightning</option>\
+        <option value='venom'>Venom, Toxin</option>\
+        <option value='magic'>Magic</option>\
+      </select>\
       </div>\
       ",
       buttons: {
         one: {
           icon: '<i class="fas fa-check"></i>',
           label: 'Roll!',
-          callback: (html) => this._rollDnD(html.find('[id=\"injuries\"]')[0].value)
+          callback: (html) => this._rollDnD(html.find('[id=\"location\"]')[0].value)
         },
         two: {
           icon: '<i class="fas fa-ban"></i>',
@@ -205,7 +216,6 @@ export class BoilerplateActor extends Actor {
       }
       return true;
     });
-    console.log("YOOO FUCK!");
     let actorUpdate = {
       "system.fatalWounds": fatalWounds
     };
@@ -343,10 +353,17 @@ export class BoilerplateActor extends Actor {
     });
   }
 
-  _rollDnD(injuries) {
+  async _rollDnD(loc) {
+    let hitLocation = loc;
+    let injuries = 0;
+    for (let i of this.items) {
+      if (i.type === 'injury') {
+        injuries++;
+      }
+    }
     let formula = "d12 + " + (this.system.hp.value * -1) + " + " + injuries;
     let roll = new Roll(formula, this.getRollData());
-    roll.evaluate({async: false});
+    await roll.evaluate();
     let xvalue = roll.total;
 
     let fatalwounds = 0;
@@ -361,10 +378,87 @@ export class BoilerplateActor extends Actor {
       fatalwounds += xvalue - 15;
     }
 
+    if (hitLocation === "random") {
+      let locRoll = new Roll("1d6");
+      await locRoll.evaluate();
+      switch (locRoll.total) {
+        case 1:
+          hitLocation = "arm";
+          break;
+        case 2:
+          hitLocation = "leg";
+          break;
+        case 3:
+        case 4:
+          hitLocation = "torso";
+          break;
+        case 5:
+        case 6:
+          hitLocation = "head";
+          break;
+      }
+    }
+
+    let minorInjuryName = "Minor injury";
+    let majorInjuryName = "Major injury";
+    let hitText = "Hit";
+    console.log("Got hit to " + hitLocation);
+
+    switch (hitLocation) {
+      case "arm":
+        minorInjuryName = "Arm disabled";
+        majorInjuryName = "Arm mangled";
+        hitText = "Hit on arm";
+        break;
+      case "leg":
+        minorInjuryName = "Leg disabled";
+        majorInjuryName = "Leg mangled";
+        hitText = "Hit on leg";
+        break;
+      case "torso":
+        minorInjuryName = "Cracked ribs";
+        majorInjuryName = "Crushed";
+        hitText = "Hit on torso";
+        break;
+      case "head":
+        minorInjuryName = "Concussed";
+        majorInjuryName = "Skull cracked";
+        hitText = "Hit on head";
+        break;
+      case "fire":
+        minorInjuryName = "Scorched";
+        majorInjuryName = "Burned";
+        hitText = "Burned by fire/acid";
+        break;
+      case "ice":
+        minorInjuryName = "Frostbite";
+        majorInjuryName = "Frozen";
+        hitText = "Touched by ice/cold";
+        break;
+      case "lightning":
+        minorInjuryName = "Burned";
+        majorInjuryName = "Fried";
+        hitText = "Hit by lightning";
+        break;
+      case "venom":
+        minorInjuryName = "Sickened";
+        majorInjuryName = "Wracked";
+        hitText = "Afflicted by venom/toxin";
+        break;
+      case "magic":
+        minorInjuryName = "Anathema";
+        majorInjuryName = "Marked";
+        hitText = "Scourged by magic";
+        break;
+    }
+
     let templateData = {
+      hitText: hitText,
       formula: formula,
       xvalue: xvalue,
       majorinjury: majorinjury,
+      minorInjuryName: minorInjuryName,
+      majorInjuryName: majorInjuryName,
       fatalwounds: fatalwounds,
       img: this.img
     };

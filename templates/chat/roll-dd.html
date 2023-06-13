@@ -3,17 +3,18 @@
   <h2>DEATH AND DISMEMBERMENT!</h2>
 </div>
 <div class="dd-roll">
+  <div class="majorinjury flex-group-center">{{hitText}}!</div>
   <div class="resultbox flex-group-center">
     <div class="result-header">Roll ({{formula}})</div>
     <div class="result-value">{{xvalue}}</div>
   </div>
   <div class="injurybox flex-group-center">
     <div class="minorinjury">
-      Minor injury for {{xvalue}} days.
+      {{minorInjuryName}} for {{xvalue}} days.
     </div>
     {{#if majorinjury}}
     <div class="injuryand">AND...!</div>
-    <div class="majorinjury">Major injury!</div>
+    <div class="majorinjury">{{majorInjuryName}}!</div>
     <div class="injuryand">AND...!</div>
     <div class="majorinjury">{{fatalwounds}} Fatal Wound(s)!</div>
     {{/if}}
