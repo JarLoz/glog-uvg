@@ -39,14 +39,25 @@ export class BoilerplateItem extends Item {
     } else if (this.type == "spell") {
       this._showSpellRollDialog();
     } else {
-      const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-      const rollMode = game.settings.get('core', 'rollMode');
-      const label = `[${item.type}] ${item.name}`;
-      ChatMessage.create({
-        speaker: speaker,
-        rollMode: rollMode,
-        flavor: label,
-        content: item.system.description ?? ''
+      let templateData = {
+        img: item.img,
+        name: item.name,
+        description: item.system.description ?? ''
+      };
+
+      let chatData = {
+        speaker: {
+          actor: this.actor.id,
+          token: this.actor.token,
+          alias: this.actor.name
+        },
+        sound: CONFIG.sounds.notice
+      }
+
+      let template = "systems/glog-uvg/templates/chat/description.html";
+      renderTemplate(template, templateData).then(content => {
+        chatData.content = content;
+        ChatMessage.create(chatData);
       });
     }
 
