@@ -38,6 +38,31 @@ export class BoilerplateItem extends Item {
       this._showAttackRollDialog();
     } else if (this.type == "spell") {
       this._showSpellRollDialog();
+    } else if (this.type == "caravanMember") {
+      let templateData = {
+        img: item.img,
+        name: item.name,
+        supply: item.system.supplyPerWeek,
+        fuel: item.system.fuelPerWeek,
+        cost: item.system.costPerWeek,
+        capacity: item.system.capacity,
+        description: item.system.description ?? ''
+      };
+
+      let chatData = {
+        speaker: {
+          actor: this.actor.id,
+          token: this.actor.token,
+          alias: this.actor.name
+        },
+        sound: CONFIG.sounds.notice
+      }
+
+      let template = "systems/glog-uvg/templates/chat/caravan-member.html";
+      renderTemplate(template, templateData).then(content => {
+        chatData.content = content;
+        ChatMessage.create(chatData);
+      });
     } else {
       let templateData = {
         img: item.img,
