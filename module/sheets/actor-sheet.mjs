@@ -163,6 +163,28 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
     }
 
+    let itemsort = function (a, b) {
+      let nameA = a.name.toUpperCase();
+      let nameB = b.name.toUpperCase();
+
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    };
+
+    // sorting!
+    quicks.sort(itemsort);
+    weapons.sort(itemsort);
+    equipment.sort(itemsort);
+    loot.sort(itemsort);
+    features.sort(itemsort);
+    injuries.sort(itemsort);
+    spells.sort(itemsort);
+
     // Assign and return
     context.quicks = quicks;
     context.weapons = weapons;
