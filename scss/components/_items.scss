@@ -32,6 +32,13 @@
   scrollbar-width: thin;
   color: $c-tan;
 
+  h1.items-list-header {
+    border-bottom: 0px;
+    font-size: 1.5em;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+
   // Child lists
   .item-list {
     list-style: none;
