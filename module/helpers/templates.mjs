@@ -18,5 +18,6 @@
     "systems/glog-uvg/templates/actor/parts/actor-caravan-members.html",
     "systems/glog-uvg/templates/actor/parts/actor-caravan-items.html",
     "systems/glog-uvg/templates/actor/parts/actor-character-wounds.html",
+    "systems/glog-uvg/templates/item/parts/item-effects.html",
   ]);
 };

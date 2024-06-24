@@ -1,0 +1,12 @@
+<ol class="items-list">
+  <li class="item flexrow items-header">
+    <div class="item-name">Stat</div>
+    <div class="item-name">Effect</div>
+  </li>
+  {{#each system.effects as |effect stat|}}
+    <li class="effect flexrow">
+              <label for="system.effects.{{stat}}">{{stat}}</label>
+              <input type="number" name="system.effects.{{stat}}" value="{{effect}}" data-dtype="Number"/>
+    </li>
+  {{/each}}
+</ol>

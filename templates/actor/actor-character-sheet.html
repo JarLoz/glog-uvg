@@ -68,14 +68,14 @@
             <div class="ability flexrow flex-group-center">
               <span class="resource-label flexlarge align-left">Abilities</span>
               <span class="resource-label">Value</span>
-              <span class="resource-label">Mod</span>
+              <span class="resource-label">Total</span>
               <span class="resource-label">Bonus</span>
             </div>
             {{#each system.abilities as |ability key|}}
             <div class="ability flexrow flex-group-center">
               <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll-type="ability" data-roll-ability="{{key}}" data-label="{{ability.label}}">{{ability.label}}</label>
               <input type="number" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-              <input type="number" name="system.abilities.{{key}}.mod" value="{{ability.mod}}" data-dtype="Number"/>
+              <span class="ability-total" data-tooltip-class="totaltooltip" data-tooltip="" data-tooltip-direction="LEFT">{{ability.total}}</span>
               <span class="ability-bonus rollable" data-roll="d20+@abilities.{{key}}.bonus" data-label="d20 + {{ability.label}} bonus">{{numberFormat ability.bonus decimals=0 sign=true}}</span>
             </div>
             {{/each}}

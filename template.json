@@ -291,6 +291,21 @@
         "secondaryAttackAction": null,
         "prevRollMod": 0,
         "secondaryAbility": null
+      },
+      "affectsStats": {
+          "effects": {
+              "str": 0,
+              "dex": 0,
+              "con": 0,
+              "int": 0,
+              "wis": 0,
+              "cha": 0,
+              "attack": 0,
+              "defence": 0,
+              "save": 0,
+              "stealth": 0,
+              "move": 0
+          }
       }
     },
     "weapon": {
