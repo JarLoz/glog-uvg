@@ -276,11 +276,11 @@ export class BoilerplateItem extends Item {
     d.render(true);
   }
 
-  _rollCasting(dice) {
+  async _rollCasting(dice) {
     let formula = dice + "d6";
     let castroll = new Roll(formula, this.actor.getRollData());
-    let rollResult =  castroll.evaluate({async: false});
-    let terms = rollResult.terms[0].results.map(o => {return o.result;});
+    await castroll.evaluate();
+    let terms = castroll.terms[0].results.map(o => {return o.result;});
     let mishap = false;
     let doom = false;
     let termcount = {};
@@ -308,7 +308,7 @@ export class BoilerplateItem extends Item {
       formula: formula,
       count: dice,
       resultstring: "(" + terms.toString() + ")",
-      total: rollResult.total,
+      total: castroll.total,
       img: this.img,
       mishap: mishap,
       doom: doom
