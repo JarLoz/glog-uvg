@@ -48,9 +48,11 @@ export class BoilerplateActor extends Actor {
     // Make modifications to data here. For example:
     const systemData = actorData.system;
 
+    let effects = this._getEffectsByStatFromItems(this);
     // Loop through ability scores, calculate totals and add their modifiers to our sheet output.
     for (let [key, ability] of Object.entries(systemData.abilities)) {
-      let value = ability.value + ability.mod;
+      let value = ability.value;
+      value += effects[key].mod;
       ability.total = value;
       if (value <= 2) ability.bonus = -3;
       if (value == 3 || value == 4 || value == 5) ability.bonus = -2;
@@ -64,8 +66,35 @@ export class BoilerplateActor extends Actor {
     }
 
     for (let [key, stat] of Object.entries(systemData.primaryStats)) {
-      stat.total = stat.value + stat.mod;
+      let total = stat.value;
+      total += effects[key].mod;
+      stat.total = total;
     }
+  }
+
+  _getEffectsByStatFromItems(context) {
+    let effects = {};
+    for (let statname of ["str", "dex", "con","int","wis","cha","attack","defence","save","stealth","move"]) {
+      effects[statname] = {
+        mod: 0,
+        description: ""
+      }
+    }
+    for (let item of context.items) {
+      if (item.type == "feature" || item.type == "injury") {
+        for(let [stat, effect] of Object.entries(item.system.effects)) {
+          if (effect != 0) {
+            effects[stat].mod += effect;
+            if (effect > 0) {
+              effects[stat].description += item.name + ":+" + effect + " ";
+            } else {
+              effects[stat].description += item.name + ":" + effect + " ";
+            }
+          }
+        }
+      }
+    }
+    return effects;
   }
 
   /**

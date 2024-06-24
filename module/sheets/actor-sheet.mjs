@@ -61,9 +61,6 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
-    // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
-
     return context;
   }
 
@@ -75,15 +72,19 @@ export class BoilerplateActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterData(context) {
+    let effects = this.actor._getEffectsByStatFromItems(this.actor);
     // Handle ability scores.
     for (let [k, v] of Object.entries(context.system.abilities)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilityAbbreviationsCaps[k]) ?? k;
+      v.tooltip = effects[k].description;
     }
     for (let [k, v] of Object.entries(context.system.primaryStats)) {
       v.label = game.i18n.localize(CONFIG.BOILERPLATE.stats[k]) ?? k;
+      v.tooltip = effects[k].description;
     }
     const fatalWounds = context.system.fatalWounds;
     context.fatalCount = fatalWounds[0] + fatalWounds[1] + fatalWounds[2] + fatalWounds[3];
+    
   }
 
   _prepareNpcData(context) {
