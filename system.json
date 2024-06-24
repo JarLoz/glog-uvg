@@ -4,11 +4,11 @@
   "title": "GLOG-UVG",
   "description": "GLOGHack for Ultraviolet Grasslands",
   "version": "1.0.0",
-  "minimumCoreVersion": "10",
-  "compatibleCoreVersion": "10",
+  "minimumCoreVersion": "11",
+  "compatibleCoreVersion": "11",
   "compatibility": {
-    "minimum": 10,
-    "verified": "10.272"
+    "minimum": 11,
+    "verified": "11.301"
   },
   "authors": [{
     "name": "JarLoz"

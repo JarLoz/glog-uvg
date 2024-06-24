@@ -138,11 +138,11 @@ export class BoilerplateItem extends Item {
     d.render(true);
   }
 
-  _rollAttack(modifier, damageModifier) {
+  async _rollAttack(modifier, damageModifier) {
     let weapon = this;
 
     let hitroll = new Roll("d20", this.actor.getRollData());
-    hitroll.evaluate({async: false});
+    await hitroll.evaluate();
     let hitrollresult = hitroll.total;
 
     let damageformula = weapon.system.damage;
@@ -152,7 +152,7 @@ export class BoilerplateItem extends Item {
     }
 
     let damageroll = new Roll(damageformula, this.actor.getRollData());
-    damageroll.evaluate({async: false});
+    await damageroll.evaluate();
     let damagerollresult = damageroll.total;
 
     let attack = this.actor.system.primaryStats.attack.total;
@@ -211,7 +211,7 @@ export class BoilerplateItem extends Item {
     });
   }
 
-  _rollDamage(damageModifier) {
+  async _rollDamage(damageModifier) {
     let weapon = this;
     let damageformula = weapon.system.damage;
 
@@ -219,7 +219,7 @@ export class BoilerplateItem extends Item {
       damageformula += ' + ' + damageModifier;
     }
     let damageroll = new Roll(damageformula, this.actor.getRollData());
-    damageroll.evaluate({async: false});
+    await damageroll.evaluate();
     let damagerollresult = damageroll.total;
 
     let templateData = {

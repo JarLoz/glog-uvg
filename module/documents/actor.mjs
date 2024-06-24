@@ -298,7 +298,7 @@ export class BoilerplateActor extends Actor {
     d.render(true);
   }
 
-  _rollUnder(value, statname, bonus, key, ability) {
+  await _rollUnder(value, statname, bonus, key, ability) {
     let bonusval = parseInt(bonus);
     if (isNaN(bonusval)) {
       bonusval = 0;
@@ -323,7 +323,7 @@ export class BoilerplateActor extends Actor {
     }
 
     let roll = new Roll("d20", this.getRollData());
-    roll.evaluate({async: false});
+    roll.evaluate();
     let result = roll.total;
     let success = (result <= target);
 
